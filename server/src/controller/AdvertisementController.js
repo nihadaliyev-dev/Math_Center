@@ -6,19 +6,17 @@ const {
   updateOne,
   getTotalCount,
 } = require("../services/advertisementService");
-const formatMongoData = require("../utils/formatMongoData");
+const { formatMongoData } = require("../utils/formatMongoData");
 
 // GET all advertisements
 exports.getAdvertisements = async (req, res, next) => {
   try {
-    const {
-      search = "",
-      sortBy = "createdAt",
-      order = "desc",
-    } = req.query;
+    const { search = "", sortBy = "createdAt", order = "desc" } = req.query;
 
     const allowedSortFields = ["title", "createdAt"];
-    const safeSortBy = allowedSortFields.includes(sortBy) ? sortBy : "createdAt";
+    const safeSortBy = allowedSortFields.includes(sortBy)
+      ? sortBy
+      : "createdAt";
     const sortOrder = order.toLowerCase() === "asc" ? 1 : -1;
 
     const filter = {};
@@ -40,7 +38,6 @@ exports.getAdvertisements = async (req, res, next) => {
   }
 };
 
-
 // GET advertisement by ID
 exports.getAdvertisementById = async (req, res, next) => {
   const { id } = req.params;
@@ -61,7 +58,9 @@ exports.createAdvertisement = async (req, res, next) => {
     const { title, titleInEng, coverImage } = req.body;
 
     if (!title || !coverImage) {
-      return res.status(400).json({ message: "Title and coverImage are required" });
+      return res
+        .status(400)
+        .json({ message: "Title and coverImage are required" });
     }
 
     const newAd = await post({ title, titleInEng, coverImage });
@@ -71,8 +70,6 @@ exports.createAdvertisement = async (req, res, next) => {
     next(error);
   }
 };
-
-
 
 // DELETE advertisement
 exports.deleteAdvertisement = async (req, res, next) => {
@@ -105,5 +102,3 @@ exports.updateAdvertisement = async (req, res, next) => {
     next(error);
   }
 };
-
-

@@ -20,13 +20,25 @@ const TeamMemberCard: React.FC<TeamMemberCardProps> = ({
     link
 }) => {
 
+    const getImageUrl = (url?: string) => {
+        if (!url) return "/mathematics_research_lab_logo.jpg";
+        if (url.startsWith("http://") || url.startsWith("https://")) {
+            return url;
+        }
+        return url;
+    };
+
     return (
         <div className="flex flex-col md:flex-row bg-[#F3F3F4] p-6 mb-6 shadow-md">
             <div className="w-full md:w-1/3 mb-4 md:mb-0">
                 <img
-                    src={imageUrl}
+                    src={getImageUrl(imageUrl)}
                     alt={name}
                     className="w-40 h-40 mx-auto md:mx-0 rounded-full object-cover"
+                    onError={(e) => {
+                        const target = e.target as HTMLImageElement;
+                        target.src = "/mathematics_research_lab_logo.jpg";
+                    }}
                 />
             </div>
             <div className="w-full md:ml-6">

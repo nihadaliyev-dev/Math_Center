@@ -4,7 +4,11 @@
   "main": "server.js",
   "scripts": {
     "dev": "nodemon server.js",
-    "start": "node server.js"
+    "start": "node server.js",
+    "seed": "node src/utils/seedDatabase.js",
+    "test:api": "node src/utils/testApi.js",
+    "create-admin": "node src/utils/createAdmin.js",
+    "set-superadmin": "node src/utils/setSuperAdmin.js"
   },
   "keywords": [],
   "author": "",
@@ -23,9 +27,11 @@
     "joi-objectid": "^4.0.2",
     "jsonwebtoken": "^9.0.2",
     "mongodb": "^6.17.0",
-    "mongoose": "^8.16.2"
+    "mongoose": "^8.16.2",
+    "multer": "^2.0.2"
   },
   "devDependencies": {
+    "axios": "^1.12.2",
     "nodemon": "^3.1.10"
   }
 }

@@ -1,8 +1,8 @@
 export type Advertisement = {
   id?: string;
   title: {
-    az: string,
-    en: string
+    az: string;
+    en: string;
   };
   coverImage: string;
   createdAt?: number;

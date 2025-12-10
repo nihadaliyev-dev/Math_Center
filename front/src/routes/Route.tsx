@@ -27,9 +27,14 @@ import AppealToRector from "../pages/client/AppealToRector";
 import Connection from "../pages/client/Connection";
 import AdminLogin from "../pages/admin/AdminLogin";
 import Dashboard from "../pages/admin/Dashboard";
+import NewsManagement from "../pages/admin/NewsManagement";
+import EventsManagement from "../pages/admin/EventsManagement";
+import DocumentsPage from "../pages/admin/DocumentsPage";
+import ResearchersPage from "../pages/admin/ResearchersPage";
+import SiteContentPage from "../pages/admin/SiteContentPage";
+import SettingsPage from "../pages/admin/SettingsPage";
 import AuthLayout from "../layout/AuthLayout";
 import AdminLayout from "../layout/AdminLayout";
-
 
 interface ProtectedRouteProps {
   children: ReactNode;
@@ -103,7 +108,7 @@ const ROUTES: RouteObject[] = [
           {
             path: "ziyaretciler",
             element: <Visitors />,
-          }
+          },
         ],
       },
       {
@@ -156,7 +161,6 @@ const ROUTES: RouteObject[] = [
         element: <NotFound />,
       },
     ],
-
   },
 
   // admin layout
@@ -169,6 +173,54 @@ const ROUTES: RouteObject[] = [
         element: (
           <ProtectedRoute>
             <Dashboard />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "news",
+        element: (
+          <ProtectedRoute>
+            <NewsManagement />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "events",
+        element: (
+          <ProtectedRoute>
+            <EventsManagement />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "documents",
+        element: (
+          <ProtectedRoute>
+            <DocumentsPage />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "researchers",
+        element: (
+          <ProtectedRoute>
+            <ResearchersPage />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "site-content",
+        element: (
+          <ProtectedRoute>
+            <SiteContentPage />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "settings",
+        element: (
+          <ProtectedRoute>
+            <SettingsPage />
           </ProtectedRoute>
         ),
       },

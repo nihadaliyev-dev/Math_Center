@@ -6,13 +6,11 @@ type ApiResponse<T> = Promise<T>;
 
 // Helper function to get language from localStorage
 const getLangFromLocalStorage = (): string => {
-  const lang = localStorage.getItem('i18nextLng');
-  return lang || 'az'; // Default to 'az' (Azerbaijani) if no language is set
+  const lang = localStorage.getItem("i18nextLng");
+  return lang || "az"; // Default to 'az' (Azerbaijani) if no language is set
 };
 
-export const getAll = async <T>(
-  endpoint: string
-): ApiResponse<T> => {
+export const getAll = async <T>(endpoint: string): ApiResponse<T> => {
   try {
     const lang = getLangFromLocalStorage(); // Get language from localStorage
     const response: AxiosResponse<T> = await instance.get(endpoint, {
@@ -46,17 +44,27 @@ export const post = async <T, D>(
 ): ApiResponse<T> => {
   try {
     const lang = getLangFromLocalStorage(); // Get language from localStorage
-    const response: AxiosResponse<T> = await instance.post(
-      endpoint,
-      data,
-      {
-        params: { lang },
-        ...options,
-      }
-    );
+    const response: AxiosResponse<T> = await instance.post(endpoint, data, {
+      params: { lang },
+      ...options,
+    });
     return response.data;
   } catch (error: any) {
-    throw new Error(error.message || "Failed to create item.");
+    console.error("API POST Error:", error.response?.data || error.message);
+    const errorData = error.response?.data;
+    let errorMessage = "Failed to create item.";
+
+    if (errorData) {
+      if (errorData.errors) {
+        errorMessage = errorData.errors;
+      } else if (errorData.message) {
+        errorMessage = errorData.message;
+      }
+    } else if (error.message) {
+      errorMessage = error.message;
+    }
+
+    throw new Error(errorMessage);
   }
 };
 
@@ -76,7 +84,21 @@ export const put = async <T, D>(
     );
     return response.data;
   } catch (error: any) {
-    throw new Error(error.message || "Failed to update item.");
+    console.error("API PUT Error:", error.response?.data || error.message);
+    const errorData = error.response?.data;
+    let errorMessage = "Failed to update item.";
+
+    if (errorData) {
+      if (errorData.errors) {
+        errorMessage = errorData.errors;
+      } else if (errorData.message) {
+        errorMessage = errorData.message;
+      }
+    } else if (error.message) {
+      errorMessage = error.message;
+    }
+
+    throw new Error(errorMessage);
   }
 };
 

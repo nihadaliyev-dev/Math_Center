@@ -1,8 +1,19 @@
 const express = require("express");
-const { getNews, getNewsById, createNews, updateNews, deleteNews } = require("../controller/NewsController");
+const {
+  getNews,
+  getNewsById,
+  createNews,
+  updateNews,
+  deleteNews,
+  uploadNewsImage,
+} = require("../controller/NewsController");
 const newsValidator = require("../middlewares/newsValidator");
 const protectRoute = require("../middlewares/protectRoute");
+const { uploadImage } = require("../middlewares/uploadMiddleware");
 const router = express.Router();
+
+// Upload news image (protected)
+router.post("/upload/image", protectRoute("admin"), uploadImage, uploadNewsImage);
 
 // GET all news (public access)
 router.get("/", getNews);

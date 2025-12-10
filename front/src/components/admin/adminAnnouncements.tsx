@@ -65,31 +65,23 @@ const AdminAnnouncements: React.FC<AdminAnnouncementsProps> = ({ allAnnouncement
 
     const handleModalSubmit = async () => {
         try {
-            const newItem = { ...modalData };
-            if (newItem.createdAt !== undefined) {
-                delete newItem.createdAt;
-            }
-            if (newItem.updatedAt !== undefined) {
-                delete newItem.updatedAt;
-            }
-            if (newItem.id !== undefined) {
-                delete newItem.id;
-            }
-            if (isEdit) {
-                await put(Endpoints.advertisements, modalData.id!, newItem);
-                setAllAnnouncements(allAnnouncements.map(ad => ad.id === modalData.id ? newItem : ad));
+            const payload = { ...modalData } as Partial<Advertisement>;
+            delete (payload as any).createdAt;
+            delete (payload as any).updatedAt;
+            delete (payload as any).id;
+
+            if (isEdit && modalData.id) {
+                const updated = await put<Advertisement, Partial<Advertisement>>(Endpoints.advertisements, modalData.id, payload);
+                setAllAnnouncements(allAnnouncements.map(ad => (ad.id === modalData.id ? updated : ad)));
             } else {
-                await post(Endpoints.advertisements, newItem);
-                setAllAnnouncements((prevAds) => [...prevAds, newItem]);
+                const created = await post<Advertisement, Partial<Advertisement>>(Endpoints.advertisements, payload);
+                setAllAnnouncements((prev) => [...prev, created]);
             }
 
             setIsModalOpen(false);
             setModalData({
                 id: '',
-                title: {
-                    az: '',
-                    en: ''
-                },
+                title: { az: '', en: '' },
                 coverImage: '',
                 createdAt: Date.now(),
                 updatedAt: Date.now().toString(),
@@ -153,40 +145,32 @@ const AdminAnnouncements: React.FC<AdminAnnouncementsProps> = ({ allAnnouncement
                 </DialogContent>
             </Dialog>
 
-            <div className="bg-white p-6 rounded-lg shadow-lg">
-                <h3 className="text-2xl font-semibold text-[#0D1F4F]">Elanlar</h3>
-                <Button onClick={handleAddAdvertisement} className="bg-[#0D1F4F] my-4 text-white py-2 px-4 rounded-md hover:bg-[#0a1838] transition">
-                    Elan əlavə et
-                </Button>
-                <div className="mb-4 flex gap-4">
+            <div>
+                <div className="flex flex-wrap items-center justify-between gap-3">
+                    <Button onClick={handleAddAdvertisement} className="bg-[#0D1F4F] text-white px-4 py-2 rounded-xl hover:bg-[#0a1838] transition">
+                        Elan əlavə et
+                    </Button>
                     <input
                         type="text"
-                        className="p-2 border border-gray-300 rounded-md w-1/2"
+                        className="p-2 border border-border/60 rounded-xl w-full sm:w-64 bg-white"
                         placeholder="Elanı axtar"
                         value={searchAds}
                         onChange={(e) => setSearchAds(e.target.value)}
                     />
                 </div>
-                <div className="space-y-4">
+                <div className="mt-4 grid grid-cols-1 gap-3">
                     {allAnnouncements.filter(ad => ad.title.az.toLowerCase().includes(searchAds.toLowerCase()) || ad.title.en.toLowerCase().includes(searchAds.toLowerCase())).map((ad) => (
-                        <div key={ad.id} className="p-4 border border-gray-300 rounded-lg shadow-md hover:bg-gray-50 transition">
-                            <h4 className="font-semibold text-lg text-[#0D1F4F]">Azərbaycanca: {ad.title.az}</h4>
-                            <h4 className="font-semibold text-lg text-[#0D1F4F]">English: {ad.title.en}</h4>
-
-                            <img src={ad.coverImage} alt={ad.title[i18n.language as keyof typeof ad.title]} className="w-24 h-24 object-cover rounded-md mt-2 mb-4" />
-                            <div className="mt-2">
-                                <button
-                                    onClick={() => ad.id && handleEditAdvertisement(ad.id)}
-                                    className="bg-[#0D1F4F] text-white py-1 px-3 rounded-md mr-2 hover:bg-[#0a1838] transition"
-                                >
-                                    Dəyişdir
-                                </button>
-                                <button
-                                    onClick={() => ad.id && handleDeleteAdvertisement(ad.id)}
-                                    className="bg-[#D32F2F] text-white py-1 px-3 rounded-md hover:bg-[#9A0000] transition"
-                                >
-                                    Sil
-                                </button>
+                        <div key={ad.id} className="rounded-xl border border-border/60 bg-white hover:shadow-md transition p-4">
+                            <div className="flex gap-4 items-start">
+                                <img src={ad.coverImage} alt={ad.title[i18n.language as keyof typeof ad.title]} className="w-24 h-24 object-cover rounded-lg" />
+                                <div className="flex-1 min-w-0">
+                                    <div className="font-semibold text-[#0D1F4F] truncate">Azərbaycanca: {ad.title.az}</div>
+                                    <div className="font-semibold text-[#0D1F4F] truncate">English: {ad.title.en}</div>
+                                    <div className="mt-3 flex gap-2">
+                                        <button onClick={() => ad.id && handleEditAdvertisement(ad.id)} className="rounded-lg bg-[#0D1F4F] text-white px-3 py-1 text-sm hover:bg-[#0a1838]">Dəyişdir</button>
+                                        <button onClick={() => ad.id && handleDeleteAdvertisement(ad.id)} className="rounded-lg bg-[#D32F2F] text-white px-3 py-1 text-sm hover:bg-[#9A0000]">Sil</button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     ))}
