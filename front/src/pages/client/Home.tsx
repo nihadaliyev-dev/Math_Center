@@ -15,7 +15,6 @@ import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import NewsCard from "@/components/client/NewsCard";
-import { NewsGridSkeleton } from "@/components/ui/LoadingSkeleton";
 import AnimatedSection from "@/components/ui/AnimatedSection";
 import ParticleBackground from "@/components/ui/ParticleBackground";
 

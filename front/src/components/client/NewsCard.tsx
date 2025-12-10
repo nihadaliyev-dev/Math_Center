@@ -2,7 +2,7 @@ import i18n from "@/i18n/config";
 import type { News } from "@/types/newsType";
 import React from "react";
 import { Link } from "react-router-dom";
-import { Calendar, Clock, ArrowRight } from "lucide-react";
+import { Clock, ArrowRight } from "lucide-react";
 import { API_BASE_URL } from "@/services/api";
 
 const SeminarCard: React.FC<News> = ({ title, coverImage, createdAt, id }) => {

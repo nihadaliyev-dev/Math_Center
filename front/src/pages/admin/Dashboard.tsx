@@ -14,7 +14,6 @@ import TimeTrackingCard from "@/components/admin/TimeTrackingCard";
 import FilePreviewCard from "@/components/admin/FilePreviewCard";
 import RepositoryCard from "@/components/admin/RepositoryCard";
 import UserDataCard from "@/components/admin/UserDataCard";
-import StatCard from "@/components/admin/StatCard";
 import { API_BASE_URL } from "@/services/api";
 
 // API Integration types (to be implemented)
@@ -41,7 +40,7 @@ const Dashboard: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const [showNotifications, setShowNotifications] = useState(false);
-  const [dashboardStats, setDashboardStats] = useState<DashboardStats>({
+  const [_dashboardStats, setDashboardStats] = useState<DashboardStats>({
     totalUsers: 0,
     totalDocuments: 0,
     totalEvents: 0,

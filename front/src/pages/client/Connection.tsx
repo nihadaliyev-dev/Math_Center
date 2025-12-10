@@ -98,7 +98,7 @@ const Connection = () => {
                 className="border-none w-full h-full"
                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3039.4526557394706!2d49.849104677149484!3d40.376659271445995!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x40307da84d07764f%3A0xabaa0431ef903b77!2sFrench-Azerbaijani%20University!5e0!3m2!1str!2saz!4v1761289605641!5m2!1str!2saz"
                 loading="lazy"
-                referrerpolicy="no-referrer-when-downgrade"
+                referrerPolicy="no-referrer-when-downgrade"
               ></iframe>
             </div>
           </div>
