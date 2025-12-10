@@ -47,6 +47,10 @@ cd ..
 cd server
 pm2 start ../ecosystem.config.js --env production
 pm2 save
+
+# Setup Windows auto-start (optional)
+cd ..
+.\setup-windows-autostart.ps1
 ```
 
 ### 4. Configure Firewall

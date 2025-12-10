@@ -81,6 +81,11 @@ Set-Location ..
 Write-Host "`n💾 Saving PM2 configuration..." -ForegroundColor Cyan
 pm2 save
 
+# Note: pm2 startup doesn't work on Windows
+Write-Host "`n💡 Windows Auto-Start Setup:" -ForegroundColor Yellow
+Write-Host "   Run: .\setup-windows-autostart.ps1" -ForegroundColor Gray
+Write-Host "   (This will create a Windows Task Scheduler task)" -ForegroundColor Gray
+
 # Step 9: Display status
 Write-Host "`n✅ Deployment Complete!" -ForegroundColor Green
 Write-Host "`n📊 PM2 Status:" -ForegroundColor Cyan

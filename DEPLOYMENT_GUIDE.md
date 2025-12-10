@@ -118,10 +118,45 @@ pm2 start server.js --name "math-center-server" --env production
 
 ```powershell
 pm2 save
-pm2 startup
 ```
 
-Follow the instructions to set up PM2 to start on Windows boot.
+**⚠️ Important for Windows:** The `pm2 startup` command doesn't work on Windows. Instead, use one of these methods:
+
+#### Option 1: Windows Task Scheduler (Recommended)
+
+Run the setup script:
+
+```powershell
+cd ..  # Back to project root
+.\setup-windows-autostart.ps1
+```
+
+Or manually create a Task Scheduler task:
+
+1. Open Task Scheduler (`taskschd.msc`)
+2. Create Basic Task
+3. Name: "MathCenter-PM2-Startup"
+4. Trigger: "When the computer starts"
+5. Action: Start a program
+6. Program: `powershell.exe`
+7. Arguments: `-NoProfile -ExecutionPolicy Bypass -File "C:\path\to\math_center\start-pm2.ps1"`
+8. Check "Run with highest privileges"
+
+#### Option 2: Manual Startup Script
+
+Create a shortcut to `start-pm2.ps1` in Windows Startup folder:
+
+```powershell
+$StartupFolder = [System.Environment]::GetFolderPath("Startup")
+$ScriptPath = Join-Path $PSScriptRoot "start-pm2.ps1"
+$ShortcutPath = Join-Path $StartupFolder "MathCenter-PM2.lnk"
+$WshShell = New-Object -ComObject WScript.Shell
+$Shortcut = $WshShell.CreateShortcut($ShortcutPath)
+$Shortcut.TargetPath = "powershell.exe"
+$Shortcut.Arguments = "-NoProfile -ExecutionPolicy Bypass -File `"$ScriptPath`""
+$Shortcut.WorkingDirectory = $PSScriptRoot
+$Shortcut.Save()
+```
 
 ## Step 7: Configure Windows Firewall
 

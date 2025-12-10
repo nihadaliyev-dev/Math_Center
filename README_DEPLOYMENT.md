@@ -137,7 +137,8 @@ pm2 start ../ecosystem.config.js --env production
 
 # 5. Save PM2 configuration
 pm2 save
-pm2 startup  # Follow instructions to set up auto-start
+# Setup Windows auto-start (pm2 startup doesn't work on Windows)
+.\setup-windows-autostart.ps1
 ```
 
 ### Step 5: Configure Windows Firewall
