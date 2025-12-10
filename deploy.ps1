@@ -3,6 +3,22 @@
 
 Write-Host "🚀 Starting Deployment Process..." -ForegroundColor Green
 
+# Check execution policy
+$ExecutionPolicy = Get-ExecutionPolicy -Scope CurrentUser
+if ($ExecutionPolicy -eq "Restricted") {
+    Write-Host "⚠️  PowerShell execution policy is Restricted!" -ForegroundColor Yellow
+    Write-Host "   Attempting to fix..." -ForegroundColor Yellow
+    try {
+        Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser -Force -ErrorAction Stop
+        Write-Host "✅ Execution policy updated to RemoteSigned" -ForegroundColor Green
+    } catch {
+        Write-Host "❌ Could not update execution policy automatically." -ForegroundColor Red
+        Write-Host "   Please run: Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser -Force" -ForegroundColor Yellow
+        Write-Host "   Or run: powershell -ExecutionPolicy Bypass -File .\deploy.ps1" -ForegroundColor Yellow
+        exit 1
+    }
+}
+
 # Check if Node.js is installed
 if (-not (Get-Command node -ErrorAction SilentlyContinue)) {
     Write-Host "❌ Node.js is not installed. Please install Node.js first." -ForegroundColor Red

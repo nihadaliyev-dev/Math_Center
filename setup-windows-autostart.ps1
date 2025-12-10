@@ -3,6 +3,22 @@
 
 Write-Host "🔧 Setting up Windows Auto-Start for PM2..." -ForegroundColor Cyan
 
+# Check if running with proper execution policy
+$ExecutionPolicy = Get-ExecutionPolicy -Scope CurrentUser
+if ($ExecutionPolicy -eq "Restricted") {
+    Write-Host "⚠️  PowerShell execution policy is Restricted!" -ForegroundColor Yellow
+    Write-Host "   This script needs to run scripts. Fixing execution policy..." -ForegroundColor Yellow
+    try {
+        Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser -Force -ErrorAction Stop
+        Write-Host "✅ Execution policy updated" -ForegroundColor Green
+    } catch {
+        Write-Host "❌ Could not update execution policy." -ForegroundColor Red
+        Write-Host "   Please run as Administrator or use:" -ForegroundColor Yellow
+        Write-Host "   Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser -Force" -ForegroundColor Yellow
+        exit 1
+    }
+}
+
 # Get the current directory (project root)
 $ProjectRoot = $PSScriptRoot
 $StartScript = Join-Path $ProjectRoot "start-pm2.ps1"

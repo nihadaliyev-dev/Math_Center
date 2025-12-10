@@ -1,5 +1,20 @@
 # Quick Start Guide - Windows Server Deployment
 
+## ⚠️ First: Fix PowerShell Execution Policy
+
+If you get "running scripts is disabled" errors, run this first:
+
+```powershell
+Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser -Force
+```
+
+Or use the fix script:
+```powershell
+powershell -ExecutionPolicy Bypass -File .\fix-execution-policy.ps1
+```
+
+See `EXECUTION_POLICY_FIX.md` for more details.
+
 ## 🚀 Fast Deployment (5 Steps)
 
 ### 1. Clone Repository

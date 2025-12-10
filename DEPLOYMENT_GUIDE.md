@@ -2,6 +2,24 @@
 
 This guide will help you deploy the Mathematics Research Center application to a Windows Server.
 
+## ⚠️ Important: Fix PowerShell Execution Policy First
+
+If you encounter "running scripts is disabled" errors, you need to fix PowerShell execution policy:
+
+```powershell
+Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser -Force
+```
+
+Or run the fix script:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\fix-execution-policy.ps1
+```
+
+**Why?** Windows blocks PowerShell scripts by default. This command allows local scripts to run while keeping security for downloaded scripts.
+
+See `EXECUTION_POLICY_FIX.md` for detailed explanation and alternatives.
+
 ## Prerequisites
 
 - ✅ Node.js and npm installed
@@ -9,6 +27,7 @@ This guide will help you deploy the Mathematics Research Center application to a
 - ✅ Git installed
 - ✅ MongoDB installed and running (or MongoDB Atlas connection string)
 - ✅ Windows Server with appropriate permissions
+- ✅ PowerShell execution policy configured (see above)
 
 ## Step 1: Clone the Repository
 
