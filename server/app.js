@@ -23,7 +23,8 @@ const allowedOrigins = [
   "http://localhost:3000",
   "http://127.0.0.1:5173",
   "http://127.0.0.1:5174",
-];
+  process.env.FRONTEND_URL, // Add from environment variable
+].filter(Boolean); // Remove undefined values
 
 app.use(
   cors({
@@ -37,7 +38,14 @@ app.use(
         if (process.env.NODE_ENV !== "production") {
           callback(null, true);
         } else {
-          callback(new Error("Not allowed by CORS"));
+          // In production, check if origin matches allowed patterns
+          const frontendUrl = process.env.FRONTEND_URL;
+          if (frontendUrl && origin.startsWith(frontendUrl.replace(/\/$/, ""))) {
+            callback(null, true);
+          } else {
+            console.warn(`CORS blocked origin: ${origin}`);
+            callback(new Error("Not allowed by CORS"));
+          }
         }
       }
     },
@@ -60,6 +68,12 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
 app.use("/uploads", express.static("uploads"));
 
+// Serve static files from frontend build in production
+if (process.env.NODE_ENV === "production") {
+  const frontendPath = path.join(__dirname, "../front/dist");
+  app.use(express.static(frontendPath));
+}
+
 // Configure helmet with less restrictive settings for development
 app.use(
   helmet({
@@ -79,9 +93,36 @@ app.use("/events", eventRouter);
 app.use("/repositories", repositoryRouter);
 app.use("/admin/dashboard", dashboardRouter);
 
+// Serve frontend in production, fallback to admin view in development
 app.get("/", (_, res) => {
-  res.sendFile(path.join(__dirname, "src/views/index.html"));
+  if (process.env.NODE_ENV === "production") {
+    const frontendIndex = path.join(__dirname, "../front/dist/index.html");
+    res.sendFile(frontendIndex);
+  } else {
+    res.sendFile(path.join(__dirname, "src/views/index.html"));
+  }
 });
+
+// Catch all routes for frontend SPA routing (must be after API routes)
+if (process.env.NODE_ENV === "production") {
+  app.get("*", (req, res, next) => {
+    // Don't serve frontend for API routes
+    if (req.path.startsWith("/api") || 
+        req.path.startsWith("/advertisements") ||
+        req.path.startsWith("/news") ||
+        req.path.startsWith("/auth") ||
+        req.path.startsWith("/documents") ||
+        req.path.startsWith("/researchers") ||
+        req.path.startsWith("/events") ||
+        req.path.startsWith("/repositories") ||
+        req.path.startsWith("/admin") ||
+        req.path.startsWith("/uploads")) {
+      return next();
+    }
+    const frontendIndex = path.join(__dirname, "../front/dist/index.html");
+    res.sendFile(frontendIndex);
+  });
+}
 
 app.use(errorHandler);
 module.exports = app;
