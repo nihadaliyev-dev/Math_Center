@@ -5,6 +5,7 @@
 ### Find Local IP Address (Internal Network)
 
 **PowerShell:**
+
 ```powershell
 # Get all IP addresses
 Get-NetIPAddress -AddressFamily IPv4 | Select-Object IPAddress, InterfaceAlias
@@ -17,6 +18,7 @@ ipconfig | findstr /i "IPv4"
 ```
 
 **Command Prompt (CMD):**
+
 ```cmd
 ipconfig
 # Look for "IPv4 Address" under your active network adapter
@@ -25,6 +27,7 @@ ipconfig
 ### Find Public IP Address (Internet)
 
 **PowerShell:**
+
 ```powershell
 # Method 1: Using Invoke-WebRequest
 (Invoke-WebRequest -Uri "https://api.ipify.org" -UseBasicParsing).Content
@@ -37,11 +40,13 @@ curl https://api.ipify.org
 ```
 
 **Command Prompt (CMD):**
+
 ```cmd
 curl https://api.ipify.org
 ```
 
 **Browser:**
+
 - Visit: https://whatismyipaddress.com/
 - Or: https://api.ipify.org
 
@@ -70,9 +75,11 @@ Get-NetIPAddress -InterfaceAlias "Wi-Fi*" -AddressFamily IPv4
 If you want to access the server from other devices on the same network:
 
 1. **Find your local IP:**
+
    ```powershell
    ipconfig | findstr /i "IPv4"
    ```
+
    Example output: `IPv4 Address. . . . . . . . . . . : 192.168.1.100`
 
 2. **Access from other devices:**
@@ -84,6 +91,7 @@ If you want to access the server from other devices on the same network:
 If you want to access from the internet:
 
 1. **Find your public IP:**
+
    ```powershell
    (Invoke-WebRequest -Uri "https://api.ipify.org" -UseBasicParsing).Content
    ```
@@ -102,7 +110,7 @@ Write-Host "=== Server IP Address Information ===" -ForegroundColor Cyan
 Write-Host ""
 
 Write-Host "Local IP Addresses:" -ForegroundColor Yellow
-Get-NetIPAddress -AddressFamily IPv4 | 
+Get-NetIPAddress -AddressFamily IPv4 |
     Where-Object {$_.IPAddress -notlike "127.*" -and $_.IPAddress -notlike "169.254.*"} |
     Select-Object IPAddress, InterfaceAlias | Format-Table -AutoSize
 
@@ -116,13 +124,14 @@ try {
 
 Write-Host ""
 Write-Host "Server URL (if running on port 3000):" -ForegroundColor Yellow
-$LocalIP = (Get-NetIPAddress -AddressFamily IPv4 | 
+$LocalIP = (Get-NetIPAddress -AddressFamily IPv4 |
     Where-Object {$_.IPAddress -notlike "127.*" -and $_.IPAddress -notlike "169.254.*"}).IPAddress | Select-Object -First 1
 Write-Host "Local:  http://$LocalIP:3000" -ForegroundColor Green
 Write-Host "Public: http://$PublicIP:3000" -ForegroundColor Green
 ```
 
 Run it:
+
 ```powershell
 .\get-ip.ps1
 ```
@@ -147,4 +156,3 @@ Once you know your IP:
    ```powershell
    New-NetFirewallRule -DisplayName "Math Center Server" -Direction Inbound -LocalPort 3000 -Protocol TCP -Action Allow
    ```
-

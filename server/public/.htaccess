@@ -1,0 +1,44 @@
+# .htaccess for API Server
+# Mathematics Research Center - ASOIU
+
+# Enable Rewrite Engine
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteBase /
+
+    # Force HTTPS (uncomment when SSL certificate is installed)
+    # RewriteCond %{HTTPS} off
+    # RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+    # Allow only specific domains for API access
+    RewriteCond %{HTTP_HOST} !^mrc\.asoiu\.edu\.az$ [NC]
+    RewriteCond %{HTTP_HOST} !^www\.mrc\.asoiu\.edu\.az$ [NC]
+    RewriteCond %{HTTP_HOST} !^localhost$ [NC]
+    RewriteCond %{HTTP_HOST} !^127\.0\.0\.1$ [NC]
+    RewriteRule ^(.*)$ - [F,L]
+</IfModule>
+
+# Security Headers for API
+<IfModule mod_headers.c>
+    # CORS Headers (if not handled by Express)
+    Header set Access-Control-Allow-Origin "https://mrc.asoiu.edu.az"
+    Header set Access-Control-Allow-Methods "GET, POST, PUT, DELETE, PATCH, OPTIONS"
+    Header set Access-Control-Allow-Headers "Content-Type, Authorization, api-key"
+    Header set Access-Control-Allow-Credentials "true"
+    
+    # Security Headers
+    Header set X-Frame-Options "DENY"
+    Header set X-XSS-Protection "1; mode=block"
+    Header set X-Content-Type-Options "nosniff"
+    Header set Referrer-Policy "strict-origin-when-cross-origin"
+</IfModule>
+
+# Prevent directory listing
+Options -Indexes
+
+# Prevent access to sensitive files
+<FilesMatch "^\.">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+

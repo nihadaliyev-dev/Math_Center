@@ -6,12 +6,13 @@ Write-Host ""
 
 Write-Host "Local IP Addresses:" -ForegroundColor Yellow
 $LocalIPs = Get-NetIPAddress -AddressFamily IPv4 | 
-    Where-Object {$_.IPAddress -notlike "127.*" -and $_.IPAddress -notlike "169.254.*"} |
-    Select-Object IPAddress, InterfaceAlias
+Where-Object { $_.IPAddress -notlike "127.*" -and $_.IPAddress -notlike "169.254.*" } |
+Select-Object IPAddress, InterfaceAlias
 
 if ($LocalIPs) {
     $LocalIPs | Format-Table -AutoSize
-} else {
+}
+else {
     Write-Host "No valid local IP addresses found" -ForegroundColor Red
 }
 
@@ -19,7 +20,8 @@ Write-Host "Public IP Address:" -ForegroundColor Yellow
 try {
     $PublicIP = (Invoke-WebRequest -Uri "https://api.ipify.org" -UseBasicParsing -TimeoutSec 5).Content
     Write-Host $PublicIP -ForegroundColor Green
-} catch {
+}
+catch {
     Write-Host "Could not determine public IP (check internet connection)" -ForegroundColor Red
 }
 
@@ -38,5 +40,5 @@ if ($PublicIP) {
 
 Write-Host ""
 Write-Host "=== Network Adapter Details ===" -ForegroundColor Cyan
-Get-NetIPConfiguration | Where-Object {$_.IPv4Address} | Format-Table InterfaceAlias, IPv4Address, InterfaceDescription -AutoSize
+Get-NetIPConfiguration | Where-Object { $_.IPv4Address } | Format-Table InterfaceAlias, IPv4Address, InterfaceDescription -AutoSize
 

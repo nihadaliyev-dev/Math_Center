@@ -23,6 +23,8 @@ const allowedOrigins = [
   "http://localhost:3000",
   "http://127.0.0.1:5173",
   "http://127.0.0.1:5174",
+  "http://mrc.asoiu.edu.az",
+  "https://mrc.asoiu.edu.az",
   process.env.FRONTEND_URL, // Add from environment variable
 ].filter(Boolean); // Remove undefined values
 
@@ -74,12 +76,34 @@ if (process.env.NODE_ENV === "production") {
   app.use(express.static(frontendPath));
 }
 
-// Configure helmet with less restrictive settings for development
+// Configure helmet with production-ready security headers
 app.use(
   helmet({
     crossOriginResourcePolicy: { policy: "cross-origin" },
     crossOriginOpenerPolicy: { policy: "same-origin-allow-popups" },
-    contentSecurityPolicy: false, // Disable CSP in development to avoid issues
+    // Content Security Policy - more restrictive in production
+    contentSecurityPolicy: process.env.NODE_ENV === "production" ? {
+      directives: {
+        defaultSrc: ["'self'"],
+        scriptSrc: ["'self'", "'unsafe-inline'", "'unsafe-eval'"], // Needed for React
+        styleSrc: ["'self'", "'unsafe-inline'"], // Needed for inline styles
+        imgSrc: ["'self'", "data:", "https:"],
+        connectSrc: ["'self'", process.env.FRONTEND_URL || "https://mrc.asoiu.edu.az"].filter(Boolean),
+        fontSrc: ["'self'", "data:"],
+        objectSrc: ["'none'"],
+        mediaSrc: ["'self'"],
+        frameSrc: ["'self'", "https://www.google.com"], // For Google Maps iframe
+      },
+    } : false, // Disable CSP in development
+    // Additional security headers
+    hsts: process.env.NODE_ENV === "production" ? {
+      maxAge: 31536000,
+      includeSubDomains: true,
+      preload: true,
+    } : false,
+    noSniff: true,
+    xssFilter: true,
+    referrerPolicy: { policy: "strict-origin-when-cross-origin" },
   })
 );
 
