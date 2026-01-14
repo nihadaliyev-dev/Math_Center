@@ -8,6 +8,7 @@ i18n.configure({
   autoReload: true, // Automatically reload translations when changed
   syncFiles: true, // Sync translation files
   queryParameter: 'lang', // Use "lang" in query params to switch language (e.g., ?lang=az)
+  register: false, // Disable automatic route registration to prevent routing conflicts
 });
 
 module.exports = i18n;

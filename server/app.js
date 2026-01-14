@@ -1,17 +1,30 @@
+// Load environment variables first
+require("dotenv").config();
+
 const express = require("express");
 const cors = require("cors");
 const helmet = require("helmet");
-const advertisementRouter = require("./src/routes/AdvertisementRoute");
-const newsRouter = require("./src/routes/NewsRoute");
-const userRouter = require("./src/routes/AuthRoute");
-const documentRouter = require("./src/routes/DocumentRoute");
-const researcherRouter = require("./src/routes/ResearcherRoute");
-const eventRouter = require("./src/routes/EventRoute");
-const repositoryRouter = require("./src/routes/RepositoryRoute");
-const dashboardRouter = require("./src/routes/DashboardRoute");
+const path = require("path");
+
+// Load routes with error handling
+let advertisementRouter, newsRouter, userRouter, documentRouter, 
+    researcherRouter, eventRouter, repositoryRouter, dashboardRouter;
+
+try {
+  advertisementRouter = require("./src/routes/AdvertisementRoute");
+  newsRouter = require("./src/routes/NewsRoute");
+  userRouter = require("./src/routes/AuthRoute");
+  documentRouter = require("./src/routes/DocumentRoute");
+  researcherRouter = require("./src/routes/ResearcherRoute");
+  eventRouter = require("./src/routes/EventRoute");
+  repositoryRouter = require("./src/routes/RepositoryRoute");
+  dashboardRouter = require("./src/routes/DashboardRoute");
+} catch (error) {
+  console.error("❌ Error loading routes:", error);
+  process.exit(1);
+}
 
 const app = express();
-const path = require("path");
 const errorHandler = require("./src/middlewares/errorHandler");
 const i18n = require("./src/config/i18n");
 
@@ -26,7 +39,7 @@ const allowedOrigins = [
   "http://mrc.asoiu.edu.az",
   "https://mrc.asoiu.edu.az",
   process.env.FRONTEND_URL, // Add from environment variable
-].filter(Boolean); // Remove undefined values
+].filter(Boolean).filter(url => typeof url === 'string' && url.length > 0); // Remove undefined/null/empty values
 
 app.use(
   cors({
@@ -42,7 +55,7 @@ app.use(
         } else {
           // In production, check if origin matches allowed patterns
           const frontendUrl = process.env.FRONTEND_URL;
-          if (frontendUrl && origin.startsWith(frontendUrl.replace(/\/$/, ""))) {
+          if (frontendUrl && typeof frontendUrl === 'string' && origin.startsWith(frontendUrl.replace(/\/$/, ""))) {
             callback(null, true);
           } else {
             console.warn(`CORS blocked origin: ${origin}`);
@@ -88,7 +101,7 @@ app.use(
         scriptSrc: ["'self'", "'unsafe-inline'", "'unsafe-eval'"], // Needed for React
         styleSrc: ["'self'", "'unsafe-inline'"], // Needed for inline styles
         imgSrc: ["'self'", "data:", "https:"],
-        connectSrc: ["'self'", process.env.FRONTEND_URL || "https://mrc.asoiu.edu.az"].filter(Boolean),
+        connectSrc: ["'self'", (process.env.FRONTEND_URL && typeof process.env.FRONTEND_URL === 'string') ? process.env.FRONTEND_URL : "https://mrc.asoiu.edu.az"].filter(Boolean),
         fontSrc: ["'self'", "data:"],
         objectSrc: ["'none'"],
         mediaSrc: ["'self'"],
@@ -108,14 +121,31 @@ app.use(
 );
 
 app.use(i18n.init); // Add i18n middleware
-app.use("/advertisements", advertisementRouter);
-app.use("/news", newsRouter);
-app.use("/auth", userRouter);
-app.use("/documents", documentRouter);
-app.use("/researchers", researcherRouter);
-app.use("/events", eventRouter);
-app.use("/repositories", repositoryRouter);
-app.use("/admin/dashboard", dashboardRouter);
+
+// Validate routers before mounting
+const routers = [
+  { path: "/advertisements", router: advertisementRouter, name: "advertisementRouter" },
+  { path: "/news", router: newsRouter, name: "newsRouter" },
+  { path: "/auth", router: userRouter, name: "userRouter" },
+  { path: "/documents", router: documentRouter, name: "documentRouter" },
+  { path: "/researchers", router: researcherRouter, name: "researcherRouter" },
+  { path: "/events", router: eventRouter, name: "eventRouter" },
+  { path: "/repositories", router: repositoryRouter, name: "repositoryRouter" },
+  { path: "/admin/dashboard", router: dashboardRouter, name: "dashboardRouter" },
+];
+
+routers.forEach(({ path, router, name }) => {
+  if (!router) {
+    console.error(`❌ Error: ${name} is not loaded properly`);
+    process.exit(1);
+  }
+  try {
+    app.use(path, router);
+  } catch (error) {
+    console.error(`❌ Error mounting route ${path}:`, error);
+    process.exit(1);
+  }
+});
 
 // Serve frontend in production, fallback to admin view in development
 app.get("/", (_, res) => {
