@@ -7,8 +7,8 @@ const helmet = require("helmet");
 const path = require("path");
 
 // Load routes with error handling
-let advertisementRouter, newsRouter, userRouter, documentRouter, 
-    researcherRouter, eventRouter, repositoryRouter, dashboardRouter;
+let advertisementRouter, newsRouter, userRouter, documentRouter,
+  researcherRouter, eventRouter, repositoryRouter, dashboardRouter;
 
 try {
   advertisementRouter = require("./src/routes/AdvertisementRoute");
@@ -161,16 +161,16 @@ app.get("/", (_, res) => {
 if (process.env.NODE_ENV === "production") {
   app.get("*", (req, res, next) => {
     // Don't serve frontend for API routes
-    if (req.path.startsWith("/api") || 
-        req.path.startsWith("/advertisements") ||
-        req.path.startsWith("/news") ||
-        req.path.startsWith("/auth") ||
-        req.path.startsWith("/documents") ||
-        req.path.startsWith("/researchers") ||
-        req.path.startsWith("/events") ||
-        req.path.startsWith("/repositories") ||
-        req.path.startsWith("/admin") ||
-        req.path.startsWith("/uploads")) {
+    if (req.path.startsWith("/api") ||
+      req.path.startsWith("/advertisements") ||
+      req.path.startsWith("/news") ||
+      req.path.startsWith("/auth") ||
+      req.path.startsWith("/documents") ||
+      req.path.startsWith("/researchers") ||
+      req.path.startsWith("/events") ||
+      req.path.startsWith("/repositories") ||
+      req.path.startsWith("/admin") ||
+      req.path.startsWith("/uploads")) {
       return next();
     }
     const frontendIndex = path.join(__dirname, "../front/dist/index.html");
