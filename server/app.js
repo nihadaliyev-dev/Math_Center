@@ -179,8 +179,8 @@ app.get("/", (_, res) => {
 
 // Catch all routes for frontend SPA routing (must be after API routes)
 if (process.env.NODE_ENV === "production") {
-  // Use regex for wildcard matching in Express 5
-  app.get(/(.*)/, (req, res, next) => {
+  // Use Express 5 compatible catch-all
+  app.get('/:path*', (req, res, next) => {
     // Don't serve frontend for API routes
     if (req.path.startsWith("/api") ||
       req.path.startsWith("/advertisements") ||
