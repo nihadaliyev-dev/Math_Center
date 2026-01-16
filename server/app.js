@@ -31,6 +31,8 @@ const i18n = require("./src/config/i18n");
 //middleware
 // CORS MUST be configured BEFORE body parsers
 const allowedOrigins = [
+  "http://localhost",
+  "http://127.0.0.1",
   "http://localhost:5173",
   "http://localhost:5174",
   "http://localhost:3000",

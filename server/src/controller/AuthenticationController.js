@@ -18,11 +18,13 @@ const login = async (req, res) => {
   try {
     const user = await findUserByEmail(email);
     if (!user) {
+      console.warn(`📩 Login failed: User not found (${email})`);
       return res.status(400).json({ message: "User not found" });
     }
 
     const isMatch = await comparePasswords(password, user.password);
     if (!isMatch) {
+      console.warn(`📩 Login failed: Invalid credentials (${email})`);
       return res.status(400).json({ message: "Invalid credentials" });
     }
 
