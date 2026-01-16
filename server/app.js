@@ -46,22 +46,29 @@ app.use(
     origin: function (origin, callback) {
       // Allow requests with no origin (like mobile apps or curl requests)
       if (!origin) return callback(null, true);
-      if (allowedOrigins.indexOf(origin) !== -1) {
+
+      // Dynamic check for allowed origins
+      const isAllowed = allowedOrigins.some(allowed => {
+        if (allowed === origin) return true;
+        // Check for exact match or subdomains if needed, but for now exact match or specific patterns
+        return false;
+      });
+
+      if (isAllowed || process.env.NODE_ENV !== "production") {
         callback(null, true);
       } else {
-        // In development, allow all origins
-        if (process.env.NODE_ENV !== "production") {
-          callback(null, true);
-        } else {
-          // In production, check if origin matches allowed patterns
-          const frontendUrl = process.env.FRONTEND_URL;
-          if (frontendUrl && typeof frontendUrl === 'string' && origin.startsWith(frontendUrl.replace(/\/$/, ""))) {
-            callback(null, true);
-          } else {
-            console.warn(`CORS blocked origin: ${origin}`);
-            callback(new Error("Not allowed by CORS"));
-          }
+        // Strict production check
+        const frontendUrl = process.env.FRONTEND_URL;
+        // Allow if origin starts with frontend URL (handling trailing slashes etc)
+        if (frontendUrl && origin.startsWith(frontendUrl.replace(/\/$/, ""))) {
+          return callback(null, true);
         }
+
+        // Also allow https version if http is configured or vice versa if needed, 
+        // but strictly following the list is safer. 
+        // Let's print what failed for easier debugging on server logs
+        console.warn(`⚠️ CORS blocked origin: ${origin}`);
+        callback(new Error(`CORS not allowed for origin: ${origin}`));
       }
     },
     credentials: true,
@@ -146,6 +153,19 @@ routers.forEach(({ path, router, name }) => {
     process.exit(1);
   }
 });
+
+// API 404 Handlers - Must be before frontend routing
+const apiRoutes = [
+  "/advertisements", "/news", "/auth", "/documents",
+  "/researchers", "/events", "/repositories", "/admin/dashboard"
+];
+
+apiRoutes.forEach(route => {
+  app.use(`${route}/*`, (req, res) => {
+    res.status(404).json({ success: false, message: `API Route not found: ${req.originalUrl}` });
+  });
+});
+
 
 // Serve frontend in production, fallback to admin view in development
 app.get("/", (_, res) => {
