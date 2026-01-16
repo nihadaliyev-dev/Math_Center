@@ -161,7 +161,7 @@ const apiRoutes = [
 ];
 
 apiRoutes.forEach(route => {
-  app.use(`${route}/*`, (req, res) => {
+  app.use(route, (req, res) => {
     res.status(404).json({ success: false, message: `API Route not found: ${req.originalUrl}` });
   });
 });
