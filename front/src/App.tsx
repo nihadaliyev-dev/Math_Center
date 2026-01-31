@@ -2,13 +2,17 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import ROUTES from "./routes/Route";
 import { Toaster } from "./components/ui/sonner";
 import "./i18n/config";
+import { EditableProvider } from "./context/EditableContext";
+import AdminToolbar from "./components/admin/AdminToolbar";
 
 const router = createBrowserRouter(ROUTES);
 
 function App() {
   return (
     <>
+    <EditableProvider>
       <RouterProvider router={router} />
+      <AdminToolbar />
       <Toaster
         position="top-right"
         expand={true}
@@ -26,6 +30,7 @@ function App() {
           duration: 4000,
         }}
       />
+    </EditableProvider>
     </>
   );
 }

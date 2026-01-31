@@ -8,7 +8,7 @@ const path = require("path");
 
 // Load routes with error handling
 let advertisementRouter, newsRouter, userRouter, documentRouter,
-  researcherRouter, eventRouter, repositoryRouter, dashboardRouter;
+  researcherRouter, eventRouter, repositoryRouter, dashboardRouter, contentRouter;
 
 try {
   advertisementRouter = require("./src/routes/AdvertisementRoute");
@@ -19,6 +19,7 @@ try {
   eventRouter = require("./src/routes/EventRoute");
   repositoryRouter = require("./src/routes/RepositoryRoute");
   dashboardRouter = require("./src/routes/DashboardRoute");
+  contentRouter = require("./src/routes/ContentRoute");
 } catch (error) {
   console.error("❌ Error loading routes:", error);
   process.exit(1);
@@ -141,6 +142,7 @@ const routers = [
   { path: "/events", router: eventRouter, name: "eventRouter" },
   { path: "/repositories", router: repositoryRouter, name: "repositoryRouter" },
   { path: "/admin/dashboard", router: dashboardRouter, name: "dashboardRouter" },
+  { path: "/content", router: contentRouter, name: "contentRouter" },
 ];
 
 routers.forEach(({ path, router, name }) => {
@@ -159,7 +161,7 @@ routers.forEach(({ path, router, name }) => {
 // API 404 Handlers - Must be before frontend routing
 const apiRoutes = [
   "/advertisements", "/news", "/auth", "/documents",
-  "/researchers", "/events", "/repositories", "/admin/dashboard"
+  "/researchers", "/events", "/repositories", "/admin/dashboard", "/content"
 ];
 
 apiRoutes.forEach(route => {
@@ -193,6 +195,7 @@ if (process.env.NODE_ENV === "production") {
       req.path.startsWith("/events") ||
       req.path.startsWith("/repositories") ||
       req.path.startsWith("/admin") ||
+      req.path.startsWith("/content") ||
       req.path.startsWith("/uploads")) {
       return next();
     }

@@ -17,9 +17,12 @@ import { Link } from "react-router-dom";
 import NewsCard from "@/components/client/NewsCard";
 import AnimatedSection from "@/components/ui/AnimatedSection";
 import ParticleBackground from "@/components/ui/ParticleBackground";
+import { EditableContent } from "@/components/Editable/EditableContent";
+import { useEditable } from "@/context/EditableContext";
 
 const Home = () => {
   const { t, i18n } = useTranslation();
+  const { refreshContent } = useEditable();
   const [seminars, setSeminars] = useState<News[]>([]);
   const [announcements, setAnnouncements] = useState<Advertisement[]>([]);
   const [loading, setLoading] = useState(true);
@@ -49,6 +52,7 @@ const Home = () => {
     };
 
     fetchData();
+    refreshContent('home');
   }, []);
 
   const formatDate = (timestamp: number) => {
@@ -107,21 +111,37 @@ const Home = () => {
             </div>
 
             <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight mb-4 leading-tight">
-              <span className="block bg-clip-text text-transparent bg-gradient-to-r from-white via-blue-100 to-white">
-                MATHEMATICS
-              </span>
+              <EditableContent
+                page="home"
+                section="hero"
+                itemKey="title_line1"
+                initialContent="MATHEMATICS"
+                tag="span"
+                className="block bg-clip-text text-transparent bg-gradient-to-r from-white via-blue-100 to-white"
+              />
             </h1>
 
             <h2 className="text-3xl md:text-5xl font-bold tracking-tight mb-6 opacity-95">
-              <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-200 via-white to-blue-200">
-                RESEARCH CENTER
-              </span>
+              <EditableContent
+                page="home"
+                section="hero"
+                itemKey="title_line2"
+                initialContent="RESEARCH CENTER"
+                tag="span"
+                className="bg-clip-text text-transparent bg-gradient-to-r from-blue-200 via-white to-blue-200"
+              />
             </h2>
 
             <p className="text-lg md:text-xl text-blue-100 mb-10 max-w-2xl mx-auto leading-relaxed">
-              {t(
-                "Advancing mathematical knowledge through cutting-edge research and collaboration"
-              )}
+              <EditableContent
+                page="home"
+                section="hero"
+                itemKey="description"
+                initialContent={t(
+                  "Advancing mathematical knowledge through cutting-edge research and collaboration"
+                )}
+                tag="span"
+              />
             </p>
 
             <div className="flex items-center justify-center gap-4 flex-wrap">
