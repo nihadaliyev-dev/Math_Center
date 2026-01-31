@@ -1,6 +1,7 @@
 import { t } from 'i18next';
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { API_BASE_URL } from "@/services/api";
 
 interface TeamMemberCardProps {
     name: string;
@@ -24,6 +25,14 @@ const TeamMemberCard: React.FC<TeamMemberCardProps> = ({
         if (!url) return "/mathematics_research_lab_logo.jpg";
         if (url.startsWith("http://") || url.startsWith("https://")) {
             return url;
+        }
+        // If it starts with /uploads, just prepend API URL
+        if (url.startsWith("/uploads/")) {
+            return `${API_BASE_URL}${url}`;
+        }
+         // If it's just a filename (no slash) or doesn't start with /, assume it's in uploads/researchers/
+        if (!url.startsWith("/")) {
+             return `${API_BASE_URL}/uploads/researchers/${url}`;
         }
         return url;
     };

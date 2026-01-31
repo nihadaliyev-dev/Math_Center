@@ -28,10 +28,16 @@ const SeminarCard: React.FC<News> = ({ title, coverImage, createdAt, id }) => {
     if (imageUrl.startsWith("http://") || imageUrl.startsWith("https://")) {
       return imageUrl;
     }
+    // If it starts with /uploads, just prepend API URL
     if (imageUrl.startsWith("/uploads/")) {
       return `${API_BASE_URL}${imageUrl}`;
     }
-    return imageUrl;
+    // If it's just a filename (no slash) or doesn't start with /, assume it's in uploads/news/ or similar
+    if (!imageUrl.startsWith("/")) {
+        return `${API_BASE_URL}/uploads/news/${imageUrl}`;
+    }
+    // Fallback
+    return `${API_BASE_URL}${imageUrl}`;
   };
 
   // Safely get title based on current language with fallbacks
