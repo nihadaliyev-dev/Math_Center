@@ -12,7 +12,7 @@ const { uploadImage } = require("../middlewares/uploadMiddleware");
 router.get("/", researcherController.getAllResearchers);
 router.get("/search", researcherController.searchResearchers);
 router.get("/leaderboard", researcherController.getLeaderboard);
-router.get("/:id", researcherController.getResearcherById);
+router.get("/:id([0-9a-fA-F]{24})", researcherController.getResearcherById);
 
 // Protected routes - require authentication
 router.use(protectRoute());
@@ -23,10 +23,10 @@ router.post("/upload/avatar", uploadImage, researcherController.uploadResearcher
 // Researcher CRUD routes (protected)
 router.post("/", validateResearcher, researcherController.createResearcher);
 router.put(
-  "/:id",
+  "/:id([0-9a-fA-F]{24})",
   validateResearcherUpdate,
   researcherController.updateResearcher
 );
-router.delete("/:id", researcherController.deleteResearcher);
+router.delete("/:id([0-9a-fA-F]{24})", researcherController.deleteResearcher);
 
 module.exports = router;
