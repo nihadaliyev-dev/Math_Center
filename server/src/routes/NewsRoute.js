@@ -9,6 +9,7 @@ const {
 } = require("../controller/NewsController");
 const newsValidator = require("../middlewares/newsValidator");
 const protectRoute = require("../middlewares/protectRoute");
+const validateObjectId = require("../middlewares/validateObjectId");
 const { uploadImage } = require("../middlewares/uploadMiddleware");
 const router = express.Router();
 
@@ -18,16 +19,16 @@ router.post("/upload/image", protectRoute("admin"), uploadImage, uploadNewsImage
 // GET all news (public access)
 router.get("/", getNews);
 
-// GET one news by ID (public access) - STRICT regex for ObjectId
-router.get("/:id([0-9a-fA-F]{24})", getNewsById);
+// GET one news by ID (public access)
+router.get("/:id", validateObjectId, getNewsById);
 
 // CREATE new news (protected, only authenticated users can create)
 router.post("/", protectRoute("admin"), newsValidator, createNews);
 
 // UPDATE news by ID (protected, only authenticated users can update)
-router.put("/:id([0-9a-fA-F]{24})", protectRoute("admin"), updateNews);
+router.put("/:id", protectRoute("admin"), validateObjectId, updateNews);
 
 // DELETE news by ID (protected, only authenticated users can delete)
-router.delete("/:id([0-9a-fA-F]{24})", protectRoute("admin"), deleteNews);
+router.delete("/:id", protectRoute("admin"), validateObjectId, deleteNews);
 
 module.exports = router;

@@ -7,12 +7,13 @@ const {
   validateResearcherUpdate,
 } = require("../middlewares/researcherValidator");
 const { uploadImage } = require("../middlewares/uploadMiddleware");
+const validateObjectId = require("../middlewares/validateObjectId");
 
 // Public routes - can be accessed without authentication
 router.get("/", researcherController.getAllResearchers);
 router.get("/search", researcherController.searchResearchers);
 router.get("/leaderboard", researcherController.getLeaderboard);
-router.get("/:id([0-9a-fA-F]{24})", researcherController.getResearcherById);
+router.get("/:id", validateObjectId, researcherController.getResearcherById);
 
 // Protected routes - require authentication
 router.use(protectRoute());
@@ -23,10 +24,11 @@ router.post("/upload/avatar", uploadImage, researcherController.uploadResearcher
 // Researcher CRUD routes (protected)
 router.post("/", validateResearcher, researcherController.createResearcher);
 router.put(
-  "/:id([0-9a-fA-F]{24})",
+  "/:id",
   validateResearcherUpdate,
+  validateObjectId,
   researcherController.updateResearcher
 );
-router.delete("/:id([0-9a-fA-F]{24})", researcherController.deleteResearcher);
+router.delete("/:id", validateObjectId, researcherController.deleteResearcher);
 
 module.exports = router;
