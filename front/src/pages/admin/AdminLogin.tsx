@@ -64,6 +64,11 @@ const AdminLogin: React.FC = () => {
     const loginData = { email, password };
     interface LoginResponse {
       token: string;
+      user: {
+        id: string;
+        email: string;
+        role: string;
+      };
     }
     try {
       const response = await post<LoginResponse, typeof loginData>(
@@ -72,6 +77,9 @@ const AdminLogin: React.FC = () => {
       );
       if (response.token) {
         localStorage.setItem("token", response.token);
+        if (response.user) {
+          localStorage.setItem("user", JSON.stringify(response.user));
+        }
         navigate("/admin");
       } else {
         setErrorMessage("Invalid credentials, please try again.");

@@ -9,22 +9,45 @@ import { Pencil, Save, X } from 'lucide-react';
 
 const AdminToolbar: React.FC = () => {
     const { isEditing, toggleEditing, saveChanges, hasUnsavedChanges } = useEditable();
+    const [isAdmin, setIsAdmin] = React.useState(false);
     
-    // Check if user is admin. 
-    // We need to access Auth Context or LocalStorage.
-    // For now, let's look at localStorage 'user' or 'token'.
-    const userStr = localStorage.getItem('user');
-    let isAdmin = false;
-    if (userStr) {
-        try {
-            const user = JSON.parse(userStr);
-            if (user.role === 'admin' || user.isSuperAdmin) {
-                isAdmin = true;
+    React.useEffect(() => {
+        const checkAdmin = () => {
+            const userStr = localStorage.getItem('user');
+            const token = localStorage.getItem('token');
+            
+            if (userStr) {
+                try {
+                    const user = JSON.parse(userStr);
+                    if (user.role === 'admin' || user.role === 'superadmin' || user.isSuperAdmin) {
+                        setIsAdmin(true);
+                        return;
+                    }
+                } catch (e) {
+                    console.error('Failed to parse user from localStorage', e);
+                }
             }
-        } catch (e) {
-            console.error(e);
-        }
-    }
+
+            // If we have a token but no user data (or not admin yet), try fetching profile
+            if (token && !isAdmin) {
+                import('@/services/commonRequest').then(({ getAll }) => {
+                    getAll<{ success: boolean, data: { role: string } }>('/auth/me')
+                        .then(response => {
+                            if (response.success && response.data) {
+                                const user = response.data;
+                                localStorage.setItem('user', JSON.stringify(user));
+                                if (user.role === 'admin' || user.role === 'superadmin') {
+                                    setIsAdmin(true);
+                                }
+                            }
+                        })
+                        .catch(err => console.error('Failed to fetch user profile', err));
+                });
+            }
+        };
+
+        checkAdmin();
+    }, []);
 
     if (!isAdmin) return null;
 
