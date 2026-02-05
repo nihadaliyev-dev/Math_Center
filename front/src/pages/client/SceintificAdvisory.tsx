@@ -1,13 +1,21 @@
 import { useTranslation } from "react-i18next";
 import AnimatedSection from "@/components/ui/AnimatedSection";
 import { Users, Award, Sparkles } from "lucide-react";
+import { useEffect } from "react";
+import { useEditable } from "@/context/EditableContext";
+import { EditableContent } from "@/components/Editable/EditableContent";
 
 const ScientificAdvisory = () => {
   const { t } = useTranslation();
+  const { refreshContent } = useEditable();
   const members = t("councilMembers", { returnObjects: true }) as {
     name: string;
     title: string;
   }[];
+
+  useEffect(() => {
+    refreshContent("scientific_advisory");
+  }, [refreshContent]);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 via-blue-50/30 to-indigo-50/40">
@@ -28,10 +36,22 @@ const ScientificAdvisory = () => {
               <span className="text-sm font-medium">{t("Şura")}</span>
             </div>
             <h1 className="text-4xl md:text-6xl font-extrabold mb-4">
-              {t("scientific_advisory.title")}
+              <EditableContent
+                page="scientific_advisory"
+                section="hero"
+                itemKey="title"
+                initialContent={t("scientific_advisory.title")}
+                tag="span"
+              />
             </h1>
             <p className="text-lg md:text-xl text-blue-100 max-w-3xl mx-auto">
-              {t("Beynəlxalq mütəxəssislərimiz")}
+              <EditableContent
+                page="scientific_advisory"
+                section="hero"
+                itemKey="subtitle"
+                initialContent={t("Beynəlxalq mütəxəssislərimiz")}
+                tag="span"
+              />
             </p>
           </AnimatedSection>
         </div>
@@ -64,12 +84,24 @@ const ScientificAdvisory = () => {
                 </div>
                 <div>
                   <h2 className="text-2xl font-bold text-gray-900 mb-2">
-                    {t("Elmi Məsləhət Şurası")}
+                    <EditableContent
+                      page="scientific_advisory"
+                      section="intro"
+                      itemKey="title"
+                      initialContent={t("Elmi Məsləhət Şurası")}
+                      tag="span"
+                    />
                   </h2>
                   <p className="text-gray-700 leading-relaxed">
-                    {t(
-                      "Dünya miqyasında tanınan alimlərdən ibarət Elmi Məsləhət Şuramız tədqiqat laboratoriyamıza strateji rəhbərlik edir."
-                    )}
+                    <EditableContent
+                      page="scientific_advisory"
+                      section="intro"
+                      itemKey="text"
+                      initialContent={t(
+                        "Dünya miqyasında tanınan alimlərdən ibarət Elmi Məsləhət Şuramız tədqiqat laboratoriyamıza strateji rəhbərlik edir."
+                      )}
+                      tag="span"
+                    />
                   </p>
                 </div>
               </div>

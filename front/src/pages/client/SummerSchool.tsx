@@ -1,9 +1,13 @@
 import { useTranslation } from "react-i18next";
 import AnimatedSection from "@/components/ui/AnimatedSection";
 import { Sun, Sparkles, Calendar, Users, BookOpen, Award } from "lucide-react";
+import { useEffect } from "react";
+import { useEditable } from "@/context/EditableContext";
+import { EditableContent } from "@/components/Editable/EditableContent";
 
 const SummerSchool = () => {
   const { t } = useTranslation();
+  const { refreshContent } = useEditable();
 
   const features = [
     {
@@ -28,6 +32,10 @@ const SummerSchool = () => {
     },
   ];
 
+  useEffect(() => {
+    refreshContent("summer_school");
+  }, [refreshContent]);
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 via-blue-50/30 to-indigo-50/40">
       {/* Hero Header */}
@@ -44,13 +52,35 @@ const SummerSchool = () => {
           <AnimatedSection animation="fade-up" className="text-center">
             <div className="inline-flex items-center gap-2 mb-4 px-4 py-2 bg-white/10 backdrop-blur-sm rounded-full">
               <Sun className="w-5 h-5 animate-pulse" />
-              <span className="text-sm font-medium">{t("Yay Məktəbi")}</span>
+              <span className="text-sm font-medium">
+                <EditableContent
+                  page="summer_school"
+                  section="hero"
+                  itemKey="badge"
+                  initialContent={t("Yay Məktəbi")}
+                  tag="span"
+                />
+              </span>
             </div>
             <h1 className="text-4xl md:text-6xl font-extrabold mb-4">
-              {t("summer_school.title")}
+              <EditableContent
+                page="summer_school"
+                section="hero"
+                itemKey="title"
+                initialContent={t("summer_school.title")}
+                tag="span"
+              />
             </h1>
             <p className="text-lg md:text-xl text-blue-100 max-w-3xl mx-auto">
-              {t("Riyaziyyat sahəsində intensiv təlim proqramı")}
+              <EditableContent
+                page="summer_school"
+                section="hero"
+                itemKey="subtitle"
+                initialContent={t(
+                  "Riyaziyyat sahəsində intensiv təlim proqramı"
+                )}
+                tag="span"
+              />
             </p>
           </AnimatedSection>
         </div>
@@ -108,9 +138,23 @@ const SummerSchool = () => {
                   </div>
                   <div>
                     <h2 className="text-3xl font-bold text-white mb-2">
-                      {t("summer_school.title")}
+                      <EditableContent
+                        page="summer_school"
+                        section="header"
+                        itemKey="title"
+                        initialContent={t("summer_school.title")}
+                        tag="span"
+                      />
                     </h2>
-                    <p className="text-white/90">{t("2025")}</p>
+                    <p className="text-white/90">
+                      <EditableContent
+                        page="summer_school"
+                        section="header"
+                        itemKey="year"
+                        initialContent={t("2025")}
+                        tag="span"
+                      />
+                    </p>
                   </div>
                 </div>
               </div>
@@ -124,7 +168,13 @@ const SummerSchool = () => {
                       <div className="flex items-start gap-4">
                         <Sparkles className="w-6 h-6 text-blue-600 flex-shrink-0 mt-1" />
                         <p className="text-lg text-gray-700 leading-relaxed">
-                          {t("summer_school.description")}
+                          <EditableContent
+                            page="summer_school"
+                            section="body"
+                            itemKey="description"
+                            initialContent={t("summer_school.description")}
+                            tag="span"
+                          />
                         </p>
                       </div>
                     </div>
@@ -139,7 +189,13 @@ const SummerSchool = () => {
                           </h3>
                         </div>
                         <p className="text-gray-700">
-                          {t("2-4 həftə intensiv təlim")}
+                          <EditableContent
+                            page="summer_school"
+                            section="info"
+                            itemKey="duration"
+                            initialContent={t("2-4 həftə intensiv təlim")}
+                            tag="span"
+                          />
                         </p>
                       </div>
 
@@ -151,7 +207,13 @@ const SummerSchool = () => {
                           </h3>
                         </div>
                         <p className="text-gray-700">
-                          {t("Yerli və beynəlxalq tələbələr")}
+                          <EditableContent
+                            page="summer_school"
+                            section="info"
+                            itemKey="participants"
+                            initialContent={t("Yerli və beynəlxalq tələbələr")}
+                            tag="span"
+                          />
                         </p>
                       </div>
                     </div>
@@ -165,12 +227,24 @@ const SummerSchool = () => {
           <AnimatedSection animation="fade-up" delay={200}>
             <div className="mt-12 text-center p-8 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-2xl shadow-xl">
               <h3 className="text-2xl font-bold text-white mb-4">
-                {t("Qeydiyyat tezliklə açılacaq")}
+                <EditableContent
+                  page="summer_school"
+                  section="cta"
+                  itemKey="title"
+                  initialContent={t("Qeydiyyat tezliklə açılacaq")}
+                  tag="span"
+                />
               </h3>
               <p className="text-white/90 mb-6">
-                {t(
-                  "Yay məktəbi haqqında ətraflı məlumat üçün bizimlə əlaqə saxlayın"
-                )}
+                <EditableContent
+                  page="summer_school"
+                  section="cta"
+                  itemKey="description"
+                  initialContent={t(
+                    "Yay məktəbi haqqında ətraflı məlumat üçün bizimlə əlaqə saxlayın"
+                  )}
+                  tag="span"
+                />
               </p>
               <button className="px-8 py-4 bg-white text-blue-600 font-semibold rounded-xl hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
                 {t("Əlaqə saxla")}

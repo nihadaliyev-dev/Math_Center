@@ -1,6 +1,9 @@
 import { useTranslation } from "react-i18next";
 import AnimatedSection from "@/components/ui/AnimatedSection";
 import { BookOpen, Sparkles, Users } from "lucide-react";
+import { useEffect } from "react";
+import { useEditable } from "@/context/EditableContext";
+import { EditableContent } from "@/components/Editable/EditableContent";
 
 interface ResearchProgramItem {
   title: string;
@@ -14,10 +17,15 @@ interface ResearchProgramSection {
 
 const ResearchPrograms = () => {
   const { t } = useTranslation();
+  const { refreshContent } = useEditable();
 
   const researchPrograms = t("research_programs", {
     returnObjects: true,
   }) as ResearchProgramSection[];
+
+  useEffect(() => {
+    refreshContent("research_programs");
+  }, [refreshContent]);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 via-blue-50/30 to-indigo-50/40">
@@ -36,14 +44,32 @@ const ResearchPrograms = () => {
             <div className="inline-flex items-center gap-2 mb-4 px-4 py-2 bg-white/10 backdrop-blur-sm rounded-full">
               <BookOpen className="w-5 h-5" />
               <span className="text-sm font-medium">
-                {t("Tədqiqat Proqramları")}
+                <EditableContent
+                  page="research_programs"
+                  section="hero"
+                  itemKey="badge"
+                  initialContent={t("Tədqiqat Proqramları")}
+                  tag="span"
+                />
               </span>
             </div>
             <h1 className="text-4xl md:text-6xl font-extrabold mb-4">
-              {t("seminarlar_silsilesi")}
+              <EditableContent
+                page="research_programs"
+                section="hero"
+                itemKey="title"
+                initialContent={t("seminarlar_silsilesi")}
+                tag="span"
+              />
             </h1>
             <p className="text-lg md:text-xl text-blue-100 max-w-3xl mx-auto">
-              {t("Elmi tədqiqat və inkişaf proqramlarımız")}
+              <EditableContent
+                page="research_programs"
+                section="hero"
+                itemKey="subtitle"
+                initialContent={t("Elmi tədqiqat və inkişaf proqramlarımız")}
+                tag="span"
+              />
             </p>
           </AnimatedSection>
         </div>
@@ -80,7 +106,13 @@ const ResearchPrograms = () => {
                   </div>
                   <div className="flex-1">
                     <h3 className="text-2xl font-bold text-[#0D1F4F] mb-4">
-                      {section.heading}
+                      <EditableContent
+                        page="research_programs"
+                        section={`section_${index}`}
+                        itemKey="heading"
+                        initialContent={section.heading}
+                        tag="span"
+                      />
                     </h3>
                     <div className="space-y-4">
                       {section.items.map((item, i) => (
@@ -92,10 +124,22 @@ const ResearchPrograms = () => {
                           <p>
                             {item.title && (
                               <strong className="text-[#0D1F4F]">
-                                {item.title}{" "}
+                                <EditableContent
+                                  page="research_programs"
+                                  section={`section_${index}`}
+                                  itemKey={`item_${i}_title`}
+                                  initialContent={item.title}
+                                  tag="span"
+                                />{" "}
                               </strong>
                             )}
-                            {item.content}
+                            <EditableContent
+                              page="research_programs"
+                              section={`section_${index}`}
+                              itemKey={`item_${i}_content`}
+                              initialContent={item.content}
+                              tag="span"
+                            />
                           </p>
                         </div>
                       ))}

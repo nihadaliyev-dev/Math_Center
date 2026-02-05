@@ -52,8 +52,9 @@ const Home = () => {
     };
 
     fetchData();
-    refreshContent('home');
-  }, []);
+    // Load editable content for this page
+    refreshContent("home");
+  }, [refreshContent]);
 
   const formatDate = (timestamp: number) => {
     const date = new Date(timestamp);

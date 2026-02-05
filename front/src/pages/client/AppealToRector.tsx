@@ -4,9 +4,17 @@ import * as Yup from "yup";
 import { useTranslation } from "react-i18next";
 import AnimatedSection from "@/components/ui/AnimatedSection";
 import { Mail, User, Phone, MapPin, MessageSquare, Send } from "lucide-react";
+import { useEffect } from "react";
+import { useEditable } from "@/context/EditableContext";
+import { EditableContent } from "@/components/Editable/EditableContent";
 
 const ContactForm = () => {
   const { t } = useTranslation();
+  const { refreshContent } = useEditable();
+
+  useEffect(() => {
+    refreshContent("appeal_to_rector");
+  }, [refreshContent]);
 
   const formik = useFormik({
     initialValues: {
@@ -60,13 +68,35 @@ const ContactForm = () => {
           <AnimatedSection animation="fade-up" className="text-center">
             <div className="inline-flex items-center gap-2 mb-4 px-4 py-2 bg-white/10 backdrop-blur-sm rounded-full">
               <Mail className="w-5 h-5" />
-              <span className="text-sm font-medium">{t("Əlaqə")}</span>
+              <span className="text-sm font-medium">
+                <EditableContent
+                  page="appeal_to_rector"
+                  section="hero"
+                  itemKey="badge"
+                  initialContent={t("Əlaqə")}
+                  tag="span"
+                />
+              </span>
             </div>
             <h1 className="text-4xl md:text-6xl font-extrabold mb-4">
-              {t("Rektora Müraciət")}
+              <EditableContent
+                page="appeal_to_rector"
+                section="hero"
+                itemKey="title"
+                initialContent={t("Rektora Müraciət")}
+                tag="span"
+              />
             </h1>
             <p className="text-lg md:text-xl text-blue-100 max-w-3xl mx-auto">
-              {t("Suallarınız və təklifləriniz üçün bizimlə əlaqə saxlayın")}
+              <EditableContent
+                page="appeal_to_rector"
+                section="hero"
+                itemKey="subtitle"
+                initialContent={t(
+                  "Suallarınız və təklifləriniz üçün bizimlə əlaqə saxlayın"
+                )}
+                tag="span"
+              />
             </p>
           </AnimatedSection>
         </div>
@@ -95,12 +125,21 @@ const ContactForm = () => {
               {/* Introduction */}
               <div className="mb-8 p-6 bg-blue-50 rounded-xl">
                 <p className="text-gray-700 leading-relaxed">
-                  {t(
-                    "Hörmətli Tələbələr, əgər Rektora hər hansı bir sualınız varsa, müraciətinizi təqdim edə bilərsiniz."
-                  )}{" "}
-                  {t(
-                    "Xahiş olunur, müraciət formasındakı bütün tələb olunan sahələrin tam olaraq doldurulmasını və mətnlərinizi aydın şəkildə ifadə etməyinizi təmin edin."
-                  )}
+                  <EditableContent
+                    page="appeal_to_rector"
+                    section="intro"
+                    itemKey="text"
+                    initialContent={
+                      t(
+                        "Hörmətli Tələbələr, əgər Rektora hər hansı bir sualınız varsa, müraciətinizi təqdim edə bilərsiniz."
+                      ) +
+                      " " +
+                      t(
+                        "Xahiş olunur, müraciət formasındakı bütün tələb olunan sahələrin tam olaraq doldurulmasını və mətnlərinizi aydın şəkildə ifadə etməyinizi təmin edin."
+                      )
+                    }
+                    tag="span"
+                  />
                 </p>
               </div>
 

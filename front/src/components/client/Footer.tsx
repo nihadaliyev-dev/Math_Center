@@ -13,9 +13,13 @@ import {
 import { Link } from "react-router-dom";
 import { Button } from "../ui/button";
 import { useTranslation } from "react-i18next";
+import { EditableContent } from "@/components/Editable/EditableContent";
+import { useEditable } from "@/context/EditableContext";
+import { useEffect } from "react";
 
 export default function Footer() {
   const { t } = useTranslation();
+  const { refreshContent } = useEditable();
 
   const currentYear = new Date().getFullYear();
 
@@ -49,6 +53,10 @@ export default function Footer() {
     { icon: Linkedin, href: "#", color: "hover:text-blue-700" },
     { icon: Instagram, href: "#", color: "hover:text-pink-600" },
   ];
+
+  useEffect(() => {
+    refreshContent("footer");
+  }, [refreshContent]);
 
   return (
     <footer className="bg-gradient-to-br from-gray-900 via-[#0D1F4F] to-gray-900 text-white relative overflow-hidden">
@@ -87,17 +95,37 @@ export default function Footer() {
                 />
                 <div>
                   <h3 className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white to-blue-200">
-                    Mathematics
+                    <EditableContent
+                      page="footer"
+                      section="branding"
+                      itemKey="title_line1"
+                      initialContent="Mathematics"
+                      tag="span"
+                    />
                   </h3>
-                  <p className="text-sm text-blue-200">Research Center</p>
+                  <p className="text-sm text-blue-200">
+                    <EditableContent
+                      page="footer"
+                      section="branding"
+                      itemKey="title_line2"
+                      initialContent="Research Center"
+                      tag="span"
+                    />
+                  </p>
                 </div>
               </div>
             </Link>
 
             <p className="text-blue-100/80 leading-relaxed mb-6 text-sm">
-              {t(
-                "Advancing mathematical knowledge through cutting-edge research, collaboration, and academic excellence."
-              )}
+              <EditableContent
+                page="footer"
+                section="branding"
+                itemKey="description"
+                initialContent={t(
+                  "Advancing mathematical knowledge through cutting-edge research, collaboration, and academic excellence."
+                )}
+                tag="span"
+              />
             </p>
 
             {/* Social Links */}
@@ -167,7 +195,15 @@ export default function Footer() {
             <ul className="space-y-4">
               <li className="flex items-start gap-3 text-sm text-blue-100/80">
                 <MapPin className="w-5 h-5 flex-shrink-0 mt-0.5 text-blue-300" />
-                <span>{t("Z. Xəlilov küçəsi, 33, AZ1148")}</span>
+                <span>
+                  <EditableContent
+                    page="footer"
+                    section="contact"
+                    itemKey="address"
+                    initialContent={t("Z. Xəlilov küçəsi, 33, AZ1148")}
+                    tag="span"
+                  />
+                </span>
               </li>
               <li className="flex items-start gap-3 text-sm text-blue-100/80">
                 <Mail className="w-5 h-5 flex-shrink-0 mt-0.5 text-blue-300" />
@@ -175,7 +211,13 @@ export default function Footer() {
                   href="mailto:info@mathcenter.az"
                   className="hover:text-white transition-colors"
                 >
-                  info@mathcenter.az
+                  <EditableContent
+                    page="footer"
+                    section="contact"
+                    itemKey="email"
+                    initialContent="info@mathcenter.az"
+                    tag="span"
+                  />
                 </a>
               </li>
               <li className="flex items-start gap-3 text-sm text-blue-100/80">
@@ -184,7 +226,13 @@ export default function Footer() {
                   href="tel:+994"
                   className="hover:text-white transition-colors"
                 >
-                  +994 (12) XXX XX XX
+                  <EditableContent
+                    page="footer"
+                    section="contact"
+                    itemKey="phone"
+                    initialContent="+994 (12) XXX XX XX"
+                    tag="span"
+                  />
                 </a>
               </li>
             </ul>
@@ -205,11 +253,22 @@ export default function Footer() {
         <div className="border-t border-white/10 pt-10 pb-8">
           <div className="max-w-3xl mx-auto text-center">
             <h4 className="text-2xl font-bold mb-3 bg-clip-text text-transparent bg-gradient-to-r from-white to-blue-200">
-              Stay Updated
+              <EditableContent
+                page="footer"
+                section="newsletter"
+                itemKey="title"
+                initialContent="Stay Updated"
+                tag="span"
+              />
             </h4>
             <p className="text-blue-100/80 mb-6">
-              Subscribe to our newsletter for the latest research updates and
-              events
+              <EditableContent
+                page="footer"
+                section="newsletter"
+                itemKey="description"
+                initialContent="Subscribe to our newsletter for the latest research updates and events"
+                tag="span"
+              />
             </p>
             <div className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
               <input
@@ -228,7 +287,13 @@ export default function Footer() {
         <div className="border-t border-white/10 pt-8">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-blue-100/60">
             <p>
-              © {currentYear} Mathematics Research Center. All rights reserved.
+              <EditableContent
+                page="footer"
+                section="legal"
+                itemKey="copyright"
+                initialContent={`© ${currentYear} Mathematics Research Center. All rights reserved.`}
+                tag="span"
+              />
             </p>
             <div className="flex items-center gap-6">
               <Link

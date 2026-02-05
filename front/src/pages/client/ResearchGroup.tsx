@@ -1,9 +1,13 @@
 import { useTranslation } from "react-i18next";
 import AnimatedSection from "@/components/ui/AnimatedSection";
 import { Users, Sparkles, User, Lightbulb, Target, Award } from "lucide-react";
+import { useEffect } from "react";
+import { useEditable } from "@/context/EditableContext";
+import { EditableContent } from "@/components/Editable/EditableContent";
 
 const ResearchGroup = () => {
   const { t } = useTranslation();
+  const { refreshContent } = useEditable();
 
   const groups = t("research_group.groups", {
     returnObjects: true,
@@ -14,6 +18,10 @@ const ResearchGroup = () => {
     description: string;
     leaderInfo?: string;
   }>;
+
+  useEffect(() => {
+    refreshContent("research_group");
+  }, [refreshContent]);
 
   const groupIcons = [
     { icon: Lightbulb, color: "from-yellow-400 to-orange-500" },
@@ -39,14 +47,34 @@ const ResearchGroup = () => {
             <div className="inline-flex items-center gap-2 mb-4 px-4 py-2 bg-white/10 backdrop-blur-sm rounded-full">
               <Users className="w-5 h-5" />
               <span className="text-sm font-medium">
-                {t("Tədqiqat Qrupları")}
+                <EditableContent
+                  page="research_group"
+                  section="hero"
+                  itemKey="badge"
+                  initialContent={t("Tədqiqat Qrupları")}
+                  tag="span"
+                />
               </span>
             </div>
             <h1 className="text-4xl md:text-6xl font-extrabold mb-4">
-              {t("research_group.title")}
+              <EditableContent
+                page="research_group"
+                section="hero"
+                itemKey="title"
+                initialContent={t("research_group.title")}
+                tag="span"
+              />
             </h1>
             <p className="text-lg md:text-xl text-blue-100 max-w-3xl mx-auto">
-              {t("Müxtəlif sahələrdə ixtisaslaşmış tədqiqat komandalarımız")}
+              <EditableContent
+                page="research_group"
+                section="hero"
+                itemKey="subtitle"
+                initialContent={t(
+                  "Müxtəlif sahələrdə ixtisaslaşmış tədqiqat komandalarımız"
+                )}
+                tag="span"
+              />
             </p>
           </AnimatedSection>
         </div>
@@ -79,10 +107,24 @@ const ResearchGroup = () => {
                 </div>
                 <div>
                   <h2 className="text-2xl font-bold text-gray-900 mb-4">
-                    {t("research_group.description.groups_title")}
+                    <EditableContent
+                      page="research_group"
+                      section="intro"
+                      itemKey="title"
+                      initialContent={t(
+                        "research_group.description.groups_title"
+                      )}
+                      tag="span"
+                    />
                   </h2>
                   <p className="text-lg text-gray-700 leading-relaxed">
-                    {t("research_group.description.intro")}
+                    <EditableContent
+                      page="research_group"
+                      section="intro"
+                      itemKey="text"
+                      initialContent={t("research_group.description.intro")}
+                      tag="span"
+                    />
                   </p>
                 </div>
               </div>

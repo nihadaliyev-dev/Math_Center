@@ -1,5 +1,8 @@
 import { useTranslation } from "react-i18next";
 import AnimatedSection from "@/components/ui/AnimatedSection";
+import { useEffect } from "react";
+import { useEditable } from "@/context/EditableContext";
+import { EditableContent } from "@/components/Editable/EditableContent";
 import {
   Sparkles,
   Users,
@@ -11,6 +14,7 @@ import {
 
 const Welcome = () => {
   const { t } = useTranslation();
+  const { refreshContent } = useEditable();
 
   const highlights = [
     {
@@ -35,6 +39,10 @@ const Welcome = () => {
     },
   ];
 
+  useEffect(() => {
+    refreshContent("welcome");
+  }, [refreshContent]);
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 via-blue-50/30 to-indigo-50/40">
       {/* Hero Header */}
@@ -54,11 +62,22 @@ const Welcome = () => {
               <span className="text-sm font-medium">Welcome</span>
             </div>
             <h1 className="text-4xl md:text-6xl font-extrabold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-white via-blue-100 to-white">
-              {t("xos_gelmisiniz")}
+              <EditableContent
+                page="welcome"
+                section="hero"
+                itemKey="title"
+                initialContent={t("xos_gelmisiniz")}
+                tag="span"
+              />
             </h1>
             <p className="text-lg md:text-xl text-blue-100 max-w-3xl mx-auto">
-              Mathematics Research Laboratory - Where Innovation Meets
-              Excellence
+              <EditableContent
+                page="welcome"
+                section="hero"
+                itemKey="subtitle"
+                initialContent="Mathematics Research Laboratory - Where Innovation Meets Excellence"
+                tag="span"
+              />
             </p>
           </AnimatedSection>
         </div>
@@ -112,60 +131,114 @@ const Welcome = () => {
                 <div className="prose prose-lg max-w-none">
                   <div className="space-y-6 text-gray-700 leading-relaxed">
                     <p className="text-xl font-medium text-gray-800 border-l-4 border-[#0D1F4F] pl-6 py-2">
-                      {t(
-                        "Riyaziyyat Tədqiqat Laboratoriyasına (MRL) xoş gəlmisiniz. RTL riyaziyyat, əməkdaşlıq və innovasiyalar sahəsində tədqiqatlar aparmağa çalışan bir cəmiyyətdir."
-                      )}
+                      <EditableContent
+                        page="welcome"
+                        section="body"
+                        itemKey="intro"
+                        initialContent={t(
+                          "Riyaziyyat Tədqiqat Laboratoriyasına (MRL) xoş gəlmisiniz. RTL riyaziyyat, əməkdaşlıq və innovasiyalar sahəsində tədqiqatlar aparmağa çalışan bir cəmiyyətdir."
+                        )}
+                        tag="span"
+                      />
                     </p>
 
                     <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl p-6 my-8">
                       <div className="flex items-start gap-4">
                         <Sparkles className="w-8 h-8 text-[#0D1F4F] flex-shrink-0 mt-1" />
                         <p className="text-lg">
-                          {t(
-                            "Biz Riyaziyyatın elm və texnologiyadakı bütün tərəqqinin əsası olduğuna inanırıq və yeni tətbiq sahələri ilə əlaqədar olaraq cəbr və ədədlər nəzəriyyəsində problemlərin həlli yollarının tapılması istiqamətində riyaziyyatı araşdırırıq."
-                          )}
+                          <EditableContent
+                            page="welcome"
+                            section="body"
+                            itemKey="highlight"
+                            initialContent={t(
+                              "Biz Riyaziyyatın elm və texnologiyadakı bütün tərəqqinin əsası olduğuna inanırıq və yeni tətbiq sahələri ilə əlaqədar olaraq cəbr və ədədlər nəzəriyyəsində problemlərin həlli yollarının tapılması istiqamətində riyaziyyatı araşdırırıq."
+                            )}
+                            tag="span"
+                          />
                         </p>
                       </div>
                     </div>
 
                     <p>
-                      {t(
-                        "Laboratoriyamız riyaziyyata marağı olan tədqiqatçılar, məsələn, tələbələr, doktorantlar, baş tədqiqatçılar və qonaq alimlər üçün dinamik və dəstəkləyici tədqiqat mühiti təklif etmək niyyəti ilə yaradılmışdır. Bu cür şəxslərin hamısı ümumi məqsədə öz töhfələrini verəcəklər: riyaziyyatın sərhədlərini genişləndirmək. Seminarlar, seminarlar silsiləsi və konfranslar maraqlı yeni ideyalar və fənlər arasında əlaqələr üçün təşkil edilir."
-                      )}
+                      <EditableContent
+                        page="welcome"
+                        section="body"
+                        itemKey="paragraph1"
+                        initialContent={t(
+                          "Laboratoriyamız riyaziyyata marağı olan tədqiqatçılar, məsələn, tələbələr, doktorantlar, baş tədqiqatçılar və qonaq alimlər üçün dinamik və dəstəkləyici tədqiqat mühiti təklif etmək niyyəti ilə yaradılmışdır. Bu cür şəxslərin hamısı ümumi məqsədə öz töhfələrini verəcəklər: riyaziyyatın sərhədlərini genişləndirmək. Seminarlar, seminarlar silsiləsi və konfranslar maraqlı yeni ideyalar və fənlər arasında əlaqələr üçün təşkil edilir."
+                        )}
+                        tag="span"
+                      />
                     </p>
 
                     <p>
-                      {t(
-                        "Biz, həmçinin akademik azadlıq və məkan yaradırıq ki, hər hansı bir tədqiqatçımız fərdi maraq doğuran mövzuları araşdırmaq şansına malik olsun. Biz tədqiqat və müasir qurğular üçün yaxşı maliyyə vəsaitindən istifadə etməklə, yeni kəşflərə dəstəyi təmin edirik."
-                      )}
+                      <EditableContent
+                        page="welcome"
+                        section="body"
+                        itemKey="paragraph2"
+                        initialContent={t(
+                          "Biz, həmçinin akademik azadlıq və məkan yaradırıq ki, hər hansı bir tədqiqatçımız fərdi maraq doğuran mövzuları araşdırmaq şansına malik olsun. Biz tədqiqat və müasir qurğular üçün yaxşı maliyyə vəsaitindən istifadə etməklə, yeni kəşflərə dəstəyi təmin edirik."
+                        )}
+                        tag="span"
+                      />
                     </p>
 
                     <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl p-6 my-8">
                       <p className="text-lg italic">
-                        {t(
-                          "Direktor olaraq, Belə çiçəklənən bir cəmiyyətlə fəxr edirəm. Bu, həqiqətən də ideya axınının sərbəst şəkildə formalaşdığı, əməkdaşlıqların artdığı və hamının riyaziyyat elmlərinə mənalı töhfələr vermək üçün səylərini sərf etdiyi bir yerə çevrilir."
-                        )}
+                        <EditableContent
+                          page="welcome"
+                          section="body"
+                          itemKey="director_quote"
+                          initialContent={t(
+                            "Direktor olaraq, Belə çiçəklənən bir cəmiyyətlə fəxr edirəm. Bu, həqiqətən də ideya axınının sərbəst şəkildə formalaşdığı, əməkdaşlıqların artdığı və hamının riyaziyyat elmlərinə mənalı töhfələr vermək üçün səylərini sərf etdiyi bir yerə çevrilir."
+                          )}
+                          tag="span"
+                        />
                       </p>
                     </div>
 
                     <p>
-                      {t(
-                        "Sizi tədqiqat laboratoriyamızın adından salamlayıram, tədbirlərdə iştirak etməyə dəvət edirəm və bizimlə əlaqə saxlamağınızı təklif edirəm. Əgər, siz tədqiqatçısınızsa, tələbəsinizsə və ya riyaziyyatla maraqlanırsınızsa, RTL sizin üçün doğru məkandır."
-                      )}
+                      <EditableContent
+                        page="welcome"
+                        section="body"
+                        itemKey="paragraph3"
+                        initialContent={t(
+                          "Sizi tədqiqat laboratoriyamızın adından salamlayıram, tədbirlərdə iştirak etməyə dəvət edirəm və bizimlə əlaqə saxlamağınızı təklif edirəm. Əgər, siz tədqiqatçısınızsa, tələbəsinizsə və ya riyaziyyatla maraqlanırsınızsa, RTL sizin üçün doğru məkandır."
+                        )}
+                        tag="span"
+                      />
                     </p>
 
                     <p className="text-xl font-semibold text-[#0D1F4F] border-t border-gray-200 pt-6 mt-8">
-                      {t(
-                        "Böyük araşdırmalar aparmaq və əməkdaşlıq edərək cəmiyyətə böyük töhfələr vermək naminə sərhədləri keçməyə davam edək."
-                      )}
+                      <EditableContent
+                        page="welcome"
+                        section="body"
+                        itemKey="closing"
+                        initialContent={t(
+                          "Böyük araşdırmalar aparmaq və əməkdaşlıq edərək cəmiyyətə böyük töhfələr vermək naminə sərhədləri keçməyə davam edək."
+                        )}
+                        tag="span"
+                      />
                     </p>
 
                     <div className="mt-8 pt-6 border-t border-gray-200">
                       <p className="text-lg font-bold text-gray-800">
-                        {t("Olcay Coşkun")}
+                        <EditableContent
+                          page="welcome"
+                          section="body"
+                          itemKey="director_name"
+                          initialContent={t("Olcay Coşkun")}
+                          tag="span"
+                        />
                       </p>
                       <p className="text-sm text-gray-600">
-                        Director, Mathematics Research Laboratory
+                        <EditableContent
+                          page="welcome"
+                          section="body"
+                          itemKey="director_title"
+                          initialContent="Director, Mathematics Research Laboratory"
+                          tag="span"
+                        />
                       </p>
                     </div>
                   </div>

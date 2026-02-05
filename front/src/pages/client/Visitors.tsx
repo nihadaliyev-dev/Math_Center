@@ -9,9 +9,17 @@ import {
   BookOpen,
   ExternalLink,
 } from "lucide-react";
+import { useEffect } from "react";
+import { useEditable } from "@/context/EditableContext";
+import { EditableContent } from "@/components/Editable/EditableContent";
 
 const Visitors = () => {
   const { t } = useTranslation();
+  const { refreshContent } = useEditable();
+
+  useEffect(() => {
+    refreshContent("visitors");
+  }, [refreshContent]);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 via-blue-50/30 to-indigo-50/40">
@@ -29,13 +37,33 @@ const Visitors = () => {
           <AnimatedSection animation="fade-up" className="text-center">
             <div className="inline-flex items-center gap-2 mb-4 px-4 py-2 bg-white/10 backdrop-blur-sm rounded-full">
               <Users className="w-5 h-5" />
-              <span className="text-sm font-medium">{t("Qonaqlar")}</span>
+              <span className="text-sm font-medium">
+                <EditableContent
+                  page="visitors"
+                  section="hero"
+                  itemKey="badge"
+                  initialContent={t("Qonaqlar")}
+                  tag="span"
+                />
+              </span>
             </div>
             <h1 className="text-4xl md:text-6xl font-extrabold mb-4">
-              {t("visitors.title")}
+              <EditableContent
+                page="visitors"
+                section="hero"
+                itemKey="title"
+                initialContent={t("visitors.title")}
+                tag="span"
+              />
             </h1>
             <p className="text-lg md:text-xl text-blue-100 max-w-3xl mx-auto">
-              {t("Beynəlxalq tədqiqatçılarımız")}
+              <EditableContent
+                page="visitors"
+                section="hero"
+                itemKey="subtitle"
+                initialContent={t("Beynəlxalq tədqiqatçılarımız")}
+                tag="span"
+              />
             </p>
           </AnimatedSection>
         </div>
@@ -68,23 +96,47 @@ const Visitors = () => {
                 </div>
                 <div>
                   <h2 className="text-2xl font-bold text-gray-900 mb-4">
-                    {t("visitors.title")}
+                    <EditableContent
+                      page="visitors"
+                      section="intro"
+                      itemKey="title"
+                      initialContent={t("visitors.title")}
+                      tag="span"
+                    />
                   </h2>
                   <p className="text-gray-700 leading-relaxed mb-4">
-                    {t("visitors.introduction")}
+                    <EditableContent
+                      page="visitors"
+                      section="intro"
+                      itemKey="introduction"
+                      initialContent={t("visitors.introduction")}
+                      tag="span"
+                    />
                   </p>
                   <div className="space-y-3">
                     <p className="text-gray-700">
                       <span className="font-semibold text-[#0D1F4F]">
                         {t("visitors.short_term_visitors_label")}:
                       </span>{" "}
-                      {t("visitors.short_term_visitors")}
+                      <EditableContent
+                        page="visitors"
+                        section="intro"
+                        itemKey="short_term"
+                        initialContent={t("visitors.short_term_visitors")}
+                        tag="span"
+                      />
                     </p>
                     <p className="text-gray-700">
                       <span className="font-semibold text-[#0D1F4F]">
                         {t("visitors.long_term_visitors_label")}:
                       </span>{" "}
-                      {t("visitors.long_term_visitors")}
+                      <EditableContent
+                        page="visitors"
+                        section="intro"
+                        itemKey="long_term"
+                        initialContent={t("visitors.long_term_visitors")}
+                        tag="span"
+                      />
                     </p>
                   </div>
                 </div>
@@ -96,9 +148,23 @@ const Visitors = () => {
           <AnimatedSection animation="fade-up">
             <div className="text-center">
               <h2 className="text-3xl font-bold text-gray-900 mb-2">
-                {t("visitors.visitors_title")}
+                <EditableContent
+                  page="visitors"
+                  section="list"
+                  itemKey="title"
+                  initialContent={t("visitors.visitors_title")}
+                  tag="span"
+                />
               </h2>
-              <p className="text-gray-600">{t("Son ziyarətçilər")}</p>
+              <p className="text-gray-600">
+                <EditableContent
+                  page="visitors"
+                  section="list"
+                  itemKey="subtitle"
+                  initialContent={t("Son ziyarətçilər")}
+                  tag="span"
+                />
+              </p>
             </div>
           </AnimatedSection>
 
@@ -129,7 +195,13 @@ const Visitors = () => {
                   {/* Content Section */}
                   <div className="md:w-2/3 p-8">
                     <h3 className="text-2xl font-bold text-gray-900 mb-4 group-hover:text-[#0D1F4F] transition-colors">
-                      Deniz Yılmaz
+                      <EditableContent
+                        page="visitors"
+                        section="visitor_card"
+                        itemKey="name"
+                        initialContent="Deniz Yılmaz"
+                        tag="span"
+                      />
                     </h3>
 
                     <div className="space-y-3 mb-4">
@@ -137,7 +209,15 @@ const Visitors = () => {
                         <div className="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center flex-shrink-0">
                           <Calendar className="w-4 h-4 text-[#0D1F4F]" />
                         </div>
-                        <p className="font-semibold">January 20–24, 2025</p>
+                        <p className="font-semibold">
+                          <EditableContent
+                            page="visitors"
+                            section="visitor_card"
+                            itemKey="dates"
+                            initialContent="January 20–24, 2025"
+                            tag="span"
+                          />
+                        </p>
                       </div>
 
                       <div className="flex items-start gap-3 text-gray-700">
@@ -149,8 +229,13 @@ const Visitors = () => {
                             {t("visitors.research_interests_label")}:
                           </p>
                           <p className="text-sm">
-                            Finite groups, Representation theory, Block theory,
-                            Biset functors
+                            <EditableContent
+                              page="visitors"
+                              section="visitor_card"
+                              itemKey="interests"
+                              initialContent="Finite groups, Representation theory, Block theory, Biset functors"
+                              tag="span"
+                            />
                           </p>
                         </div>
                       </div>
@@ -163,13 +248,27 @@ const Visitors = () => {
                           <span className="font-semibold text-sm text-gray-600">
                             {t("visitors.host_label")}:
                           </span>{" "}
-                          Olcay Coşkun
+                          <EditableContent
+                            page="visitors"
+                            section="visitor_card"
+                            itemKey="host_name"
+                            initialContent="Olcay Coşkun"
+                            tag="span"
+                          />
                         </p>
                       </div>
                     </div>
 
                     <div className="inline-flex items-center gap-2 px-4 py-2 bg-blue-50 text-[#0D1F4F] rounded-lg text-sm font-medium group-hover:bg-blue-100 transition-colors">
-                      <span>{t("visitors.hosted_by")}</span>
+                      <span>
+                        <EditableContent
+                          page="visitors"
+                          section="visitor_card"
+                          itemKey="cta"
+                          initialContent={t("visitors.hosted_by")}
+                          tag="span"
+                        />
+                      </span>
                       <ExternalLink className="w-4 h-4" />
                     </div>
                   </div>

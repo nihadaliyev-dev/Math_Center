@@ -1,9 +1,17 @@
 import { useTranslation } from "react-i18next";
 import AnimatedSection from "@/components/ui/AnimatedSection";
 import { MapPin, Mail, Link as LinkIcon } from "lucide-react";
+import { useEffect } from "react";
+import { useEditable } from "@/context/EditableContext";
+import { EditableContent } from "@/components/Editable/EditableContent";
 
 const Connection = () => {
   const { t } = useTranslation();
+  const { refreshContent } = useEditable();
+
+  useEffect(() => {
+    refreshContent("connection");
+  }, [refreshContent]);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 via-blue-50/30 to-indigo-50/40 py-16">
@@ -11,7 +19,13 @@ const Connection = () => {
         <AnimatedSection animation="fade-up">
           <div className="text-center mb-12">
             <h1 className="text-4xl md:text-5xl font-bold text-gray-800 mb-4">
-              {t("Əlaqə")}
+              <EditableContent
+                page="connection"
+                section="hero"
+                itemKey="title"
+                initialContent={t("Əlaqə")}
+                tag="span"
+              />
             </h1>
             <div className="w-24 h-1 bg-gradient-to-r from-[#0D1F4F] to-indigo-600 mx-auto rounded-full" />
           </div>
@@ -29,9 +43,15 @@ const Connection = () => {
                     {t("Ünvan: ")}
                   </h3>
                   <p className="text-gray-700 leading-relaxed">
-                    {t(
-                      "Bakı Dövlət Universiteti, əsas bina 3-cü mərtəbə, Rəqəmsal Araşdırmalar Laboratoriyası, Bakı şəhəri, akademik Zahid Xəlilov küçəsi, 33, AZ 1148"
-                    )}
+                    <EditableContent
+                      page="connection"
+                      section="address"
+                      itemKey="text"
+                      initialContent={t(
+                        "Bakı Dövlət Universiteti, əsas bina 3-cü mərtəbə, Rəqəmsal Araşdırmalar Laboratoriyası, Bakı şəhəri, akademik Zahid Xəlilov küçəsi, 33, AZ 1148"
+                      )}
+                      tag="span"
+                    />
                   </p>
                 </div>
               </div>
@@ -52,7 +72,15 @@ const Connection = () => {
                     href="mailto:mrl@asoiu.edu.az"
                     className="text-lg text-[#0D1F4F] hover:text-indigo-600 transition-colors duration-300 font-medium inline-flex items-center gap-2 group"
                   >
-                    <span>mrl@asoiu.edu.az</span>
+                    <span>
+                      <EditableContent
+                        page="connection"
+                        section="contact"
+                        itemKey="email"
+                        initialContent="mrl@asoiu.edu.az"
+                        tag="span"
+                      />
+                    </span>
                     <span className="transform group-hover:translate-x-1 transition-transform">
                       →
                     </span>
@@ -78,7 +106,15 @@ const Connection = () => {
                     rel="noopener noreferrer"
                     className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-[#0D1F4F] to-indigo-600 text-white rounded-xl font-semibold hover:shadow-lg transform hover:scale-105 transition-all duration-300"
                   >
-                    <span>{t("Qeydiyyat Linki")}</span>
+                    <span>
+                      <EditableContent
+                        page="connection"
+                        section="registration"
+                        itemKey="button"
+                        initialContent={t("Qeydiyyat Linki")}
+                        tag="span"
+                      />
+                    </span>
                     <span className="text-xl">→</span>
                   </a>
                 </div>

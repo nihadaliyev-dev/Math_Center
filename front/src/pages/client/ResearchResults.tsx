@@ -1,9 +1,13 @@
 import { useTranslation } from "react-i18next";
 import AnimatedSection from "@/components/ui/AnimatedSection";
 import { Award, Sparkles, ExternalLink, FileText } from "lucide-react";
+import { useEffect } from "react";
+import { useEditable } from "@/context/EditableContext";
+import { EditableContent } from "@/components/Editable/EditableContent";
 
 const ResearchResults = () => {
   const { t } = useTranslation();
+  const { refreshContent } = useEditable();
 
   const researchItems = [
     {
@@ -28,6 +32,10 @@ const ResearchResults = () => {
     },
   ];
 
+  useEffect(() => {
+    refreshContent("research_results");
+  }, [refreshContent]);
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 via-blue-50/30 to-indigo-50/40">
       {/* Hero Header */}
@@ -45,14 +53,32 @@ const ResearchResults = () => {
             <div className="inline-flex items-center gap-2 mb-4 px-4 py-2 bg-white/10 backdrop-blur-sm rounded-full">
               <Award className="w-5 h-5" />
               <span className="text-sm font-medium">
-                {t("Tədqiqat Nəticələri")}
+                <EditableContent
+                  page="research_results"
+                  section="hero"
+                  itemKey="badge"
+                  initialContent={t("Tədqiqat Nəticələri")}
+                  tag="span"
+                />
               </span>
             </div>
             <h1 className="text-4xl md:text-6xl font-extrabold mb-4">
-              {t("research_results.main_title")}
+              <EditableContent
+                page="research_results"
+                section="hero"
+                itemKey="title"
+                initialContent={t("research_results.main_title")}
+                tag="span"
+              />
             </h1>
             <p className="text-lg md:text-xl text-blue-100 max-w-3xl mx-auto">
-              {t("Elmi tədqiqatlarımızın son nəticələri")}
+              <EditableContent
+                page="research_results"
+                section="hero"
+                itemKey="subtitle"
+                initialContent={t("Elmi tədqiqatlarımızın son nəticələri")}
+                tag="span"
+              />
             </p>
           </AnimatedSection>
         </div>
@@ -85,10 +111,22 @@ const ResearchResults = () => {
                 </div>
                 <div>
                   <h2 className="text-2xl font-bold text-gray-900 mb-4">
-                    {t("Haqqında")}
+                    <EditableContent
+                      page="research_results"
+                      section="intro"
+                      itemKey="title"
+                      initialContent={t("Haqqında")}
+                      tag="span"
+                    />
                   </h2>
                   <p className="text-gray-700 leading-relaxed text-lg">
-                    {t("research_results.description")}
+                    <EditableContent
+                      page="research_results"
+                      section="intro"
+                      itemKey="text"
+                      initialContent={t("research_results.description")}
+                      tag="span"
+                    />
                   </p>
                 </div>
               </div>
@@ -99,7 +137,13 @@ const ResearchResults = () => {
           <div className="space-y-6">
             <AnimatedSection animation="fade-up">
               <h2 className="text-3xl font-bold text-gray-900 mb-6 text-center">
-                {t("Nəşrlər")}
+                <EditableContent
+                  page="research_results"
+                  section="list"
+                  itemKey="title"
+                  initialContent={t("Nəşrlər")}
+                  tag="span"
+                />
               </h2>
             </AnimatedSection>
 
@@ -116,7 +160,13 @@ const ResearchResults = () => {
                     </div>
                     <div className="flex-1">
                       <p className="text-gray-700 leading-relaxed mb-3">
-                        {t(item.textKey)}
+                        <EditableContent
+                          page="research_results"
+                          section="list"
+                          itemKey={`item_${index}_text`}
+                          initialContent={t(item.textKey)}
+                          tag="span"
+                        />
                       </p>
                       <a
                         href={item.url}

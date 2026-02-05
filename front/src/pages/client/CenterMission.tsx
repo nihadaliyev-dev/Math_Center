@@ -1,9 +1,13 @@
 import { useTranslation } from "react-i18next";
 import AnimatedSection from "@/components/ui/AnimatedSection";
 import { Target, Sparkles, Users, Globe, BookOpen } from "lucide-react";
+import { useEffect } from "react";
+import { useEditable } from "@/context/EditableContext";
+import { EditableContent } from "@/components/Editable/EditableContent";
 
 const CenterMission = () => {
   const { t } = useTranslation();
+  const { refreshContent } = useEditable();
 
   const goals = [
     {
@@ -36,6 +40,10 @@ const CenterMission = () => {
     },
   ];
 
+  useEffect(() => {
+    refreshContent("center_mission");
+  }, [refreshContent]);
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 via-blue-50/30 to-indigo-50/40">
       {/* Hero Header */}
@@ -55,12 +63,24 @@ const CenterMission = () => {
               <span className="text-sm font-medium">{t("Missiya")}</span>
             </div>
             <h1 className="text-4xl md:text-6xl font-extrabold mb-4">
-              {t("Laboratoriyanın Missiyası")}
+              <EditableContent
+                page="center_mission"
+                section="hero"
+                itemKey="title"
+                initialContent={t("Laboratoriyanın Missiyası")}
+                tag="span"
+              />
             </h1>
             <p className="text-lg md:text-xl text-blue-100 max-w-3xl mx-auto">
-              {t(
-                "Fundamental və multidissiplinar riyaziyyat tədqiqatlarının inkişafı"
-              )}
+              <EditableContent
+                page="center_mission"
+                section="hero"
+                itemKey="subtitle"
+                initialContent={t(
+                  "Fundamental və multidissiplinar riyaziyyat tədqiqatlarının inkişafı"
+                )}
+                tag="span"
+              />
             </p>
           </AnimatedSection>
         </div>
@@ -93,12 +113,24 @@ const CenterMission = () => {
                 </div>
                 <div>
                   <h2 className="text-2xl font-bold text-gray-900 mb-4">
-                    {t("Haqqımızda")}
+                    <EditableContent
+                      page="center_mission"
+                      section="intro"
+                      itemKey="title"
+                      initialContent={t("Haqqımızda")}
+                      tag="span"
+                    />
                   </h2>
                   <p className="text-lg text-gray-700 leading-relaxed">
-                    {t(
-                      "2024-cü ildə təsis edilmiş Riyaziyyat Tədqiqat Lab (MRL), fundamental və multidissiplinar riyaziyyat tədqiqatlarının inkişafına həsr olunmuş aparıcı tədqiqat institutudur. Missiyamız, riyaziyyatı müxtəlif sahələrlə əlaqələndirərək yeniliyi təşviq etmək, tədqiqatçılar arasında riyazi bacarıqları inkişaf etdirmək və riyaziyyat elmlərində qabaqcıl tədqiqatların inkişafına dəstək olmaqdır."
-                    )}
+                    <EditableContent
+                      page="center_mission"
+                      section="intro"
+                      itemKey="text"
+                      initialContent={t(
+                        "2024-cü ildə təsis edilmiş Riyaziyyat Tədqiqat Lab (MRL), fundamental və multidissiplinar riyaziyyat tədqiqatlarının inkişafına həsr olunmuş aparıcı tədqiqat institutudur. Missiyamız, riyaziyyatı müxtəlif sahələrlə əlaqələndirərək yeniliyi təşviq etmək, tədqiqatçılar arasında riyazi bacarıqları inkişaf etdirmək və riyaziyyat elmlərində qabaqcıl tədqiqatların inkişafına dəstək olmaqdır."
+                      )}
+                      tag="span"
+                    />
                   </p>
                 </div>
               </div>

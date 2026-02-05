@@ -5,6 +5,8 @@ import AnimatedSection from "@/components/ui/AnimatedSection";
 import { Users, Sparkles } from "lucide-react";
 import instance from "@/services/instance";
 import { API_BASE_URL } from "@/services/api";
+import { useEditable } from "@/context/EditableContext";
+import { EditableContent } from "@/components/Editable/EditableContent";
 
 interface Researcher {
   id?: string;
@@ -23,10 +25,12 @@ const Team: React.FC = () => {
   const { t } = useTranslation();
   const [teamMembers, setTeamMembers] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const { refreshContent } = useEditable();
 
   useEffect(() => {
     fetchResearchers();
-  }, []);
+    refreshContent("colleagues");
+  }, [refreshContent]);
 
   const fetchResearchers = async () => {
     try {
@@ -39,13 +43,17 @@ const Team: React.FC = () => {
           name: researcher.fullName,
           role: researcher.role === "Admin" ? t("Rehber") : t("Tədqiqatçı"),
           email: researcher.email,
-          researchInterests: researcher.bio || t("Tədqiqat maraqları müəyyən edilməyib"),
+          researchInterests:
+            researcher.bio || t("Tədqiqat maraqları müəyyən edilməyib"),
           imageUrl: researcher.avatar
             ? researcher.avatar.startsWith("http")
               ? researcher.avatar
               : `${API_BASE_URL}${researcher.avatar}`
             : "/mathematics_research_lab_logo.jpg",
-          link: `haqqimizda/emekdaslar/${researcher.id || researcher.fullName.toLowerCase().replace(/\s+/g, "-")}`,
+          link: `haqqimizda/emekdaslar/${
+            researcher.id ||
+            researcher.fullName.toLowerCase().replace(/\s+/g, "-")
+          }`,
         }));
         setTeamMembers(mappedMembers);
       }
@@ -73,13 +81,35 @@ const Team: React.FC = () => {
           <AnimatedSection animation="fade-up" className="text-center">
             <div className="inline-flex items-center gap-2 mb-4 px-4 py-2 bg-white/10 backdrop-blur-sm rounded-full">
               <Users className="w-5 h-5" />
-              <span className="text-sm font-medium">{t("Komanda")}</span>
+              <span className="text-sm font-medium">
+                <EditableContent
+                  page="colleagues"
+                  section="hero"
+                  itemKey="badge"
+                  initialContent={t("Komanda")}
+                  tag="span"
+                />
+              </span>
             </div>
             <h1 className="text-4xl md:text-6xl font-extrabold mb-4">
-              {t("Əməkdaşlar")}
+              <EditableContent
+                page="colleagues"
+                section="hero"
+                itemKey="title"
+                initialContent={t("Əməkdaşlar")}
+                tag="span"
+              />
             </h1>
             <p className="text-lg md:text-xl text-blue-100 max-w-3xl mx-auto">
-              {t("Tədqiqat laboratoriyamızın rəhbər heyəti və tədqiqatçıları")}
+              <EditableContent
+                page="colleagues"
+                section="hero"
+                itemKey="subtitle"
+                initialContent={t(
+                  "Tədqiqat laboratoriyamızın rəhbər heyəti və tədqiqatçıları"
+                )}
+                tag="span"
+              />
             </p>
           </AnimatedSection>
         </div>
@@ -112,12 +142,24 @@ const Team: React.FC = () => {
                 </div>
                 <div>
                   <h2 className="text-2xl font-bold text-gray-900 mb-2">
-                    {t("Komandamız")}
+                    <EditableContent
+                      page="colleagues"
+                      section="intro"
+                      itemKey="title"
+                      initialContent={t("Komandamız")}
+                      tag="span"
+                    />
                   </h2>
                   <p className="text-gray-700 leading-relaxed">
-                    {t(
-                      "Riyaziyyat sahəsində mütəxəssis olan alimlər və tədqiqatçılardan ibarət komandamız ilə tanış olun."
-                    )}
+                    <EditableContent
+                      page="colleagues"
+                      section="intro"
+                      itemKey="description"
+                      initialContent={t(
+                        "Riyaziyyat sahəsində mütəxəssis olan alimlər və tədqiqatçılardan ibarət komandamız ilə tanış olun."
+                      )}
+                      tag="span"
+                    />
                   </p>
                 </div>
               </div>
