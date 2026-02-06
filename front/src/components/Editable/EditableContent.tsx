@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useEditable } from '../../context/EditableContext';
 import { Pencil } from 'lucide-react';
 import { cn } from '@/lib/utils'; // Assuming this utility exists based on components.json
@@ -29,6 +29,15 @@ export const EditableContent: React.FC<EditableContentProps> = ({
   // Get current value from context or fallback to initial
   // content structure is { [page]: { [section]: { [key]: value } } }
   const currentValue = content[page]?.[section]?.[itemKey] || initialContent;
+  const elementRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    if (elementRef.current && elementRef.current.innerHTML !== currentValue) {
+        if (document.activeElement !== elementRef.current) {
+            elementRef.current.innerHTML = currentValue;
+        }
+    }
+  }, [currentValue]);
   
   const handleBlur = (e: React.FocusEvent<HTMLElement>) => {
     setIsFocused(false);
@@ -76,6 +85,7 @@ export const EditableContent: React.FC<EditableContentProps> = ({
       onMouseLeave={() => setIsHovered(false)}
     >
       <Tag
+        ref={elementRef}
         contentEditable
         suppressContentEditableWarning
         onBlur={handleBlur}
@@ -85,7 +95,6 @@ export const EditableContent: React.FC<EditableContentProps> = ({
           isFocused ? "bg-blue-50/50 ring-2 ring-blue-400 rounded px-1" : "border-2 border-transparent border-dashed",
           !isFocused && isHovered ? "border-blue-400 rounded px-1 bg-blue-50/20" : ""
         )}
-        dangerouslySetInnerHTML={{ __html: currentValue }}
       />
       {/* 
         We don't show the pencil for text because the border/bg feedback is enough 
