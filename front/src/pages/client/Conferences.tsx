@@ -1,7 +1,7 @@
 import { useTranslation } from "react-i18next";
 import AnimatedSection from "@/components/ui/AnimatedSection";
 import { Users, Presentation, Globe, Calendar } from "lucide-react";
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { useEditable } from "@/context/EditableContext";
 import { EditableContent } from "@/components/Editable/EditableContent";
 
