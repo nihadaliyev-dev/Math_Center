@@ -1,9 +1,17 @@
 import { useTranslation } from "react-i18next";
 import AnimatedSection from "@/components/ui/AnimatedSection";
 import { Users, Presentation, Globe, Calendar } from "lucide-react";
+import React, { useEffect } from "react";
+import { useEditable } from "@/context/EditableContext";
+import { EditableContent } from "@/components/Editable/EditableContent";
 
 const Conferences = () => {
   const { t } = useTranslation();
+  const { refreshContent } = useEditable();
+
+  useEffect(() => {
+    refreshContent("conferences");
+  }, [refreshContent]);
 
   const highlights = [
     {
@@ -34,7 +42,13 @@ const Conferences = () => {
         <AnimatedSection animation="fade-up">
           <div className="text-center mb-16">
             <h1 className="text-4xl md:text-5xl font-bold text-gray-800 mb-4">
-              {t("KONFRANSLAR")}
+               <EditableContent
+                page="conferences"
+                section="hero"
+                itemKey="title"
+                initialContent={t("KONFRANSLAR")}
+                tag="span"
+              />
             </h1>
             <div className="w-24 h-1 bg-gradient-to-r from-[#0D1F4F] to-indigo-600 mx-auto rounded-full" />
           </div>
@@ -72,14 +86,26 @@ const Conferences = () => {
                 </div>
                 <div>
                   <h2 className="text-2xl font-bold text-[#0D1F4F] mb-2">
-                    {t("Konfranslar")}
+                     <EditableContent
+                      page="conferences"
+                      section="conferences_section"
+                      itemKey="title"
+                      initialContent={t("Konfranslar")}
+                      tag="span"
+                    />
                   </h2>
                 </div>
               </div>
               <p className="text-base text-gray-700 leading-relaxed">
-                {t(
-                  "Bu böyük tədbirlərdə aparıcı beynəlxalq tədqiqatçılar və institutun üzvləri məruzələr təqdim edir. Konfranslar riyaziyyatda son nailiyyətləri müzakirə etmək, fikir mübadiləsi aparmaq və xarici tədqiqatçılarla əlaqə yaratmaq imkanı verir. Institut həmçinin mühüm məruzəçilərə səyahət, yaşayış və gündəlik xərclər üzrə subsidiya təqdim edir."
-                )}
+                 <EditableContent
+                  page="conferences"
+                  section="conferences_section"
+                  itemKey="description"
+                  initialContent={t(
+                    "Bu böyük tədbirlərdə aparıcı beynəlxalq tədqiqatçılar və institutun üzvləri məruzələr təqdim edir. Konfranslar riyaziyyatda son nailiyyətləri müzakirə etmək, fikir mübadiləsi aparmaq və xarici tədqiqatçılarla əlaqə yaratmaq imkanı verir. Institut həmçinin mühüm məruzəçilərə səyahət, yaşayış və gündəlik xərclər üzrə subsidiya təqdim edir."
+                  )}
+                  tag="span"
+                />
               </p>
             </div>
           </AnimatedSection>
@@ -92,14 +118,26 @@ const Conferences = () => {
                 </div>
                 <div>
                   <h2 className="text-2xl font-bold text-[#0D1F4F] mb-2">
-                    {t("Seminarlar")}
+                     <EditableContent
+                      page="conferences"
+                      section="seminars_section"
+                      itemKey="title"
+                      initialContent={t("Seminarlar")}
+                      tag="span"
+                    />
                   </h2>
                 </div>
               </div>
               <p className="text-base text-gray-700 leading-relaxed">
-                {t(
-                  "Konfranslardan fərqli olaraq, seminarlar kiçik və daha çox diqqət mərkəzindədirlər; seminarlar müəyyən bir riyazi sahəyə dərindən diqqət yetirmək üçün 5-10 seçilmiş tədqiqatçını bir araya gətirirlər. Adətən 2-3 gün davam edən müddətdə iştirakçılara nəinki intensiv əməkdaşlıq etməyə, həm də müəyyən həllər tapmaq üçün praktiki tədqiqatlar aparmağa imkan verir."
-                )}
+                 <EditableContent
+                  page="conferences"
+                  section="seminars_section"
+                  itemKey="description"
+                  initialContent={t(
+                    "Konfranslardan fərqli olaraq, seminarlar kiçik və daha çox diqqət mərkəzindədirlər; seminarlar müəyyən bir riyazi sahəyə dərindən diqqət yetirmək üçün 5-10 seçilmiş tədqiqatçını bir araya gətirirlər. Adətən 2-3 gün davam edən müddətdə iştirakçılara nəinki intensiv əməkdaşlıq etməyə, həm də müəyyən həllər tapmaq üçün praktiki tədqiqatlar aparmağa imkan verir."
+                  )}
+                  tag="span"
+                />
               </p>
             </div>
           </AnimatedSection>
@@ -108,16 +146,36 @@ const Conferences = () => {
           <AnimatedSection animation="fade-up" delay={300}>
             <div className="bg-gradient-to-br from-[#0D1F4F] via-indigo-700 to-purple-800 rounded-2xl shadow-xl p-12 text-center text-white">
               <h3 className="text-3xl font-bold mb-4">
-                {t("Tədbirlərimizə Qatılın")}
+                 <EditableContent
+                  page="conferences"
+                  section="cta"
+                  itemKey="title"
+                  initialContent={t("Tədbirlərimizə Qatılın")}
+                  tag="span"
+                />
               </h3>
               <p className="text-lg mb-8 text-blue-100 max-w-2xl mx-auto">
-                {t(
-                  "Riyaziyyat sahəsində qabaqcıl tədqiqatlar və əməkdaşlıq üçün bizimlə birləşin"
-                )}
+                 <EditableContent
+                  page="conferences"
+                  section="cta"
+                  itemKey="description"
+                  initialContent={t(
+                    "Riyaziyyat sahəsində qabaqcıl tədqiqatlar və əməkdaşlıq üçün bizimlə birləşin"
+                  )}
+                  tag="span"
+                />
               </p>
               <button className="inline-flex items-center gap-2 px-8 py-4 bg-white text-[#0D1F4F] rounded-xl font-bold text-lg hover:shadow-2xl transform hover:scale-105 transition-all duration-300">
                 <Calendar className="w-5 h-5" />
-                <span>{t("Gələcək Tədbirlər")}</span>
+                <span>
+                   <EditableContent
+                    page="conferences"
+                    section="cta"
+                    itemKey="button"
+                    initialContent={t("Gələcək Tədbirlər")}
+                    tag="span"
+                  />
+                </span>
               </button>
             </div>
           </AnimatedSection>

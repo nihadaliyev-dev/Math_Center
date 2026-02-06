@@ -1,6 +1,8 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
 import AnimatedSection from "@/components/ui/AnimatedSection";
+import { useEditable } from "@/context/EditableContext";
+import { EditableContent } from "@/components/Editable/EditableContent";
 import {
   User,
   BookOpen,
@@ -18,6 +20,11 @@ interface SectionProps {
 
 const ErtanElmaProfile: React.FC = () => {
   const { t } = useTranslation();
+  const { refreshContent } = useEditable();
+
+  React.useEffect(() => {
+    refreshContent("colleagues_ertan");
+  }, [refreshContent]);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 via-blue-50/30 to-indigo-50/40">
@@ -38,10 +45,22 @@ const ErtanElmaProfile: React.FC = () => {
               <span className="text-sm font-medium">{t("Profil")}</span>
             </div>
             <h1 className="text-4xl md:text-5xl font-extrabold mb-4">
-              {t("ERTAN ELMA")}
+               <EditableContent
+                  page="colleagues_ertan"
+                  section="hero"
+                  itemKey="name"
+                  initialContent={t("ERTAN ELMA")}
+                  tag="span"
+                />
             </h1>
             <p className="text-lg md:text-xl text-blue-100">
-              {t("Tədqiqatçı")}
+               <EditableContent
+                  page="colleagues_ertan"
+                  section="hero"
+                  itemKey="role"
+                  initialContent={t("Tədqiqatçı")}
+                  tag="span"
+                />
             </p>
           </AnimatedSection>
         </div>
@@ -70,19 +89,43 @@ const ErtanElmaProfile: React.FC = () => {
             <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-6">
               <h2 className="text-2xl font-bold text-[#0D1F4F] mb-4 flex items-center gap-3">
                 <GraduationCap className="w-6 h-6" />
-                {t("Təhsil")}
+                <EditableContent
+                  page="colleagues_ertan"
+                  section="education"
+                  itemKey="title"
+                  initialContent={t("Təhsil")}
+                  tag="span"
+                />
               </h2>
               <div className="space-y-3 text-gray-700">
                 <p>
-                  {t("Doktorantura - Waterloo Universiteti, Waterloo, Kanada")}
+                  <EditableContent
+                    page="colleagues_ertan"
+                    section="education"
+                    itemKey="phd_uni"
+                    initialContent={t("Doktorantura - Waterloo Universiteti, Waterloo, Kanada")}
+                    tag="span"
+                  />
                 </p>
                 <p>
-                  {t(
-                    "Fəlsəfə doktoru üzrə tezisi: Multiplikativ və Additiv ədədlər nəzəriyyəsində bəzi məsələlər"
-                  )}
+                   <EditableContent
+                    page="colleagues_ertan"
+                    section="education"
+                    itemKey="phd_thesis"
+                    initialContent={t(
+                      "Fəlsəfə doktoru üzrə tezisi: Multiplikativ və Additiv ədədlər nəzəriyyəsində bəzi məsələlər"
+                    )}
+                    tag="span"
+                  />
                 </p>
                 <p>
-                  {t("Elmi rəhbərlər: Yu-Ru Liu və Wentang Kuo, 2015–2020")}
+                   <EditableContent
+                    page="colleagues_ertan"
+                    section="education"
+                    itemKey="phd_supervisors"
+                    initialContent={t("Elmi rəhbərlər: Yu-Ru Liu və Wentang Kuo, 2015–2020")}
+                    tag="span"
+                  />
                 </p>
               </div>
             </div>
@@ -99,6 +142,7 @@ const ErtanElmaProfile: React.FC = () => {
                   "Magistratura üzrə tezis: Funksional tənlik faktorlarının orta qiymətləri"
                 ),
               ]}
+              sectionKey="master_degree"
             />
           </AnimatedSection>
           <AnimatedSection animation="fade-up">
@@ -109,6 +153,7 @@ const ErtanElmaProfile: React.FC = () => {
                 t("Boğaziçi Universiteti, İstanbul, Türkiyə"),
                 t("Riyaziyyat, 2007-2012"),
               ]}
+              sectionKey="bachelor_degree"
             />
           </AnimatedSection>
           <AnimatedSection animation="fade-up">
@@ -126,6 +171,7 @@ const ErtanElmaProfile: React.FC = () => {
                   "Boğaziçi Universiteti, İstanbul, Türkiyə, Tədris Asisstenti, 2012-2015"
                 ),
               ]}
+              sectionKey="scientific_activity"
             />
           </AnimatedSection>
           <AnimatedSection animation="fade-up">
@@ -148,6 +194,7 @@ const ErtanElmaProfile: React.FC = () => {
                 t("Magistratura Tələbələri üçün Təqaüd, TÜBİTAK, 2012-2014"),
                 t("Valedictorian Prize, Sakıp Sabancı Anadolu Liseyi, 2007"),
               ]}
+              sectionKey="awards"
             />
           </AnimatedSection>
           <AnimatedSection animation="fade-up">
@@ -162,6 +209,7 @@ const ErtanElmaProfile: React.FC = () => {
                 t("Ədədlər nəzəriyyəsində ehtimal nəticələri"),
                 t("Funksiya sahələrində ədədlər nəzəriyyəsi"),
               ]}
+              sectionKey="research_interests"
             />
           </AnimatedSection>
           <AnimatedSection animation="fade-up">
@@ -194,6 +242,7 @@ const ErtanElmaProfile: React.FC = () => {
                   "Mean values of the functional equation factors at the zeros of derivatives of the Riemann zeta function and Dirichlet L-functions (Kübra Benli və Cem Yalçın Yıldırım ilə birlikdə), Analytic Number Theory, Modular Forms and q-Hypergeometric Series, Springer Proc. Math. Stat., vol. 221, Springer, Cham, (2017), 59-67."
                 ),
               ]}
+              sectionKey="publications"
             />
           </AnimatedSection>
           <AnimatedSection animation="fade-up">
@@ -208,6 +257,7 @@ const ErtanElmaProfile: React.FC = () => {
                   "On the second Hardy-Littlewood conjecture (joint with Bittu, Nicolo Fellini, Akshaa Vatwani, Do Nhat Tan Vo), ongoing, 10 pp."
                 ),
               ]}
+              sectionKey="ongoing_research"
             />
           </AnimatedSection>
           <AnimatedSection animation="fade-up">
@@ -223,6 +273,7 @@ const ErtanElmaProfile: React.FC = () => {
                 t("Səsyazmalar: mathtube.org"),
                 t("Veb sayt: Lethbridge-də NTC seminarları"),
               ]}
+              sectionKey="organizational_activities"
             />
           </AnimatedSection>
           <AnimatedSection animation="fade-up">
@@ -238,6 +289,7 @@ const ErtanElmaProfile: React.FC = () => {
                 t("Layihənin adı: İkinci Hardy-Littlewood ehtimalı"),
                 t("Layihə Rəhbəri: Akshaa Vatwani"),
               ]}
+              sectionKey="summer_school_project"
             />
           </AnimatedSection>
           <AnimatedSection animation="fade-up">
@@ -248,6 +300,7 @@ const ErtanElmaProfile: React.FC = () => {
                 t("Canadian Journal of Mathematics jurnalı rəyçi, 2022"),
                 t("AMS Mathematical Reviews üçün rəyçi, 2021"),
               ]}
+              sectionKey="scientific_positions"
             />
           </AnimatedSection>
           <AnimatedSection animation="fade-up">
@@ -262,6 +315,7 @@ const ErtanElmaProfile: React.FC = () => {
                 t("MATH 2560, Calculus II, Spring 2023"),
                 t("MATH 1565, Accelerated Calculus I, Fall 2022"),
               ]}
+              sectionKey="teaching_experience"
             />
           </AnimatedSection>
           <AnimatedSection animation="fade-up">
@@ -319,6 +373,7 @@ const ErtanElmaProfile: React.FC = () => {
                   "International Conference on Algebra and Number Theory, Samsun, 2014"
                 ),
               ]}
+              sectionKey="conferences"
             />
           </AnimatedSection>
           <AnimatedSection animation="fade-up">
@@ -348,6 +403,7 @@ const ErtanElmaProfile: React.FC = () => {
                   "Pólya-Vinogradov inequality, Pure Mathematics Student Colloquium, University of Waterloo, 2018"
                 ),
               ]}
+              sectionKey="invited_talks"
             />
           </AnimatedSection>
           <AnimatedSection animation="fade-up">
@@ -365,6 +421,7 @@ const ErtanElmaProfile: React.FC = () => {
                   "On a sum concerning the zeros of the k-th derivative of Dirichlet L-functions, International Conference on Algebra and Number Theory, Samsun, 2014"
                 ),
               ]}
+              sectionKey="contributed_talks"
             />
           </AnimatedSection>
           <AnimatedSection animation="fade-up">
@@ -377,6 +434,7 @@ const ErtanElmaProfile: React.FC = () => {
                 t("Fransız dili, orta"),
                 t("Alman dili, başlanğıc"),
               ]}
+              sectionKey="languages"
             />
           </AnimatedSection>
           <AnimatedSection animation="fade-up">
@@ -389,6 +447,7 @@ const ErtanElmaProfile: React.FC = () => {
                 t("3D animasiyalar və vizual effektlər"),
                 t("Film çəkmək"),
               ]}
+              sectionKey="artistic_interests"
             />
           </AnimatedSection>
         </div>
@@ -397,17 +456,38 @@ const ErtanElmaProfile: React.FC = () => {
   );
 };
 
-const Section: React.FC<SectionProps> = ({ title, items, icon: Icon }) => (
+interface SectionProps {
+  title: string;
+  items: string[];
+  icon?: React.ComponentType<{ className?: string }>;
+  sectionKey: string;
+}
+
+const Section: React.FC<SectionProps> = ({ title, items, icon: Icon, sectionKey }) => (
   <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-6">
     <h2 className="text-lg font-bold text-[#0D1F4F] mb-4 flex items-center gap-3">
       {Icon && <Icon className="w-5 h-5" />}
-      {title}
+      <EditableContent
+        page="colleagues_ertan"
+        section={sectionKey}
+        itemKey="title"
+        initialContent={title}
+        tag="span"
+      />
     </h2>
     <ul className="space-y-2">
       {items.map((item, idx) => (
         <li key={idx} className="flex items-start gap-3 text-gray-700 text-sm">
           <span className="text-blue-500 mt-1 flex-shrink-0">•</span>
-          <span>{item}</span>
+          <span>
+             <EditableContent
+                page="colleagues_ertan"
+                section={sectionKey}
+                itemKey={`item_${idx}`}
+                initialContent={item}
+                tag="span"
+              />
+          </span>
         </li>
       ))}
     </ul>

@@ -60,7 +60,15 @@ const CenterMission = () => {
           <AnimatedSection animation="fade-up" className="text-center">
             <div className="inline-flex items-center gap-2 mb-4 px-4 py-2 bg-white/10 backdrop-blur-sm rounded-full">
               <Sparkles className="w-5 h-5" />
-              <span className="text-sm font-medium">{t("Missiya")}</span>
+              <span className="text-sm font-medium">
+                <EditableContent
+                  page="center_mission"
+                  section="hero"
+                  itemKey="badge"
+                  initialContent={t("Missiya")}
+                  tag="span"
+                />
+              </span>
             </div>
             <h1 className="text-4xl md:text-6xl font-extrabold mb-4">
               <EditableContent
@@ -141,7 +149,13 @@ const CenterMission = () => {
           <AnimatedSection animation="fade-up">
             <div className="text-center mb-8">
               <h2 className="text-3xl font-bold text-gray-900 mb-4">
-                {t("BIMS aşağıdakı məqsədləri həyata keçirir:")}
+                <EditableContent
+                  page="center_mission"
+                  section="goals"
+                  itemKey="title"
+                  initialContent={t("BIMS aşağıdakı məqsədləri həyata keçirir:")}
+                  tag="span"
+                />
               </h2>
             </div>
 
@@ -158,7 +172,15 @@ const CenterMission = () => {
                     >
                       <goal.icon className="w-7 h-7 text-white" />
                     </div>
-                    <p className="text-gray-700 leading-relaxed">{goal.text}</p>
+                    <p className="text-gray-700 leading-relaxed">
+                        <EditableContent
+                            page="center_mission"
+                            section="goals"
+                            itemKey={`goal_${index}`}
+                            initialContent={goal.text}
+                            tag="span"
+                        />
+                    </p>
                   </div>
                 </AnimatedSection>
               ))}
@@ -173,11 +195,25 @@ const CenterMission = () => {
                   <Globe className="w-6 h-6" />
                 </div>
                 <div>
-                  <h2 className="text-2xl font-bold mb-4">{t("Əməkdaşlıq")}</h2>
+                  <h2 className="text-2xl font-bold mb-4">
+                      <EditableContent
+                          page="center_mission"
+                          section="partnership"
+                          itemKey="title"
+                          initialContent={t("Əməkdaşlıq")}
+                          tag="span"
+                      />
+                  </h2>
                   <p className="text-lg text-blue-50 leading-relaxed">
-                    {t(
-                      "İnstitut, Azərbaycan Dövlət Neft və Sənaye Universitetinin (ADNSU) Tədqiqat, İnkişaf və İnnovasiya üzrə Mükəmməllik Mərkəzinin (TIIMM) nəzdində yerləşən Rəqəmsal Tədqiqat Laboratoriyasının (DRL) ayrılmaz bir hissəsidir və universitetin tədqiqatlarının inkişafı, o cümlədən beynəlxalq elmi əməkdaşlığı təşviq etmək öhdəliyində mühüm rol oynayır."
-                    )}
+                    <EditableContent
+                      page="center_mission"
+                      section="partnership"
+                      itemKey="text"
+                      initialContent={t(
+                        "İnstitut, Azərbaycan Dövlət Neft və Sənaye Universitetinin (ADNSU) Tədqiqat, İnkişaf və İnnovasiya üzrə Mükəmməllik Mərkəzinin (TIIMM) nəzdində yerləşən Rəqəmsal Tədqiqat Laboratoriyasının (DRL) ayrılmaz bir hissəsidir və universitetin tədqiqatlarının inkişafı, o cümlədən beynəlxalq elmi əməkdaşlığı təşviq etmək öhdəliyində mühüm rol oynayır."
+                      )}
+                      tag="span"
+                    />
                   </p>
                 </div>
               </div>

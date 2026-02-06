@@ -117,7 +117,13 @@ const SummerSchool = () => {
                   <feature.icon className="w-8 h-8 text-white" />
                 </div>
                 <p className="text-sm font-semibold text-gray-700">
-                  {feature.title}
+                   <EditableContent
+                    page="summer_school"
+                    section="features"
+                    itemKey={`feature_${index}_title`}
+                    initialContent={feature.title}
+                    tag="span"
+                  />
                 </p>
               </div>
             </AnimatedSection>

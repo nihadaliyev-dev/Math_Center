@@ -157,11 +157,23 @@ const ResearchGroup = () => {
                       {/* Content Section */}
                       <div className="flex-1">
                         <h3 className="text-2xl font-bold text-gray-900 mb-4 group-hover:text-[#0D1F4F] transition-colors">
-                          {group.title}
+                           <EditableContent
+                            page="research_group"
+                            section="groups"
+                            itemKey={`group_${index}_title`}
+                            initialContent={group.title}
+                            tag="span"
+                          />
                         </h3>
 
                         <p className="text-gray-700 leading-relaxed mb-4">
-                          {group.description}
+                           <EditableContent
+                            page="research_group"
+                            section="groups"
+                            itemKey={`group_${index}_description`}
+                            initialContent={group.description}
+                            tag="span"
+                          />
                         </p>
 
                         {/* Leader Info */}
@@ -175,10 +187,22 @@ const ResearchGroup = () => {
                                 {t("Rəhbər")}
                               </p>
                               <p className="text-lg font-bold text-[#0D1F4F]">
-                                {group.leader}
+                                 <EditableContent
+                                  page="research_group"
+                                  section="groups"
+                                  itemKey={`group_${index}_leader`}
+                                  initialContent={group.leader}
+                                  tag="span"
+                                />
                               </p>
                               <p className="text-sm text-gray-600">
-                                {group.role}
+                                 <EditableContent
+                                  page="research_group"
+                                  section="groups"
+                                  itemKey={`group_${index}_role`}
+                                  initialContent={group.role}
+                                  tag="span"
+                                />
                               </p>
                             </div>
                           </div>
@@ -188,7 +212,13 @@ const ResearchGroup = () => {
                         {group.leaderInfo && (
                           <div className="border-l-4 border-purple-500 pl-4 py-2">
                             <p className="text-gray-700 leading-relaxed italic">
-                              {group.leaderInfo}
+                               <EditableContent
+                                page="research_group"
+                                section="groups"
+                                itemKey={`group_${index}_leaderInfo`}
+                                initialContent={group.leaderInfo}
+                                tag="span"
+                              />
                             </p>
                           </div>
                         )}
@@ -197,6 +227,7 @@ const ResearchGroup = () => {
                   </div>
                 </AnimatedSection>
               );
+
             })}
           </div>
 

@@ -59,7 +59,15 @@ const Welcome = () => {
           <AnimatedSection animation="fade-up" className="text-center">
             <div className="inline-flex items-center gap-2 mb-4 px-4 py-2 bg-white/10 backdrop-blur-sm rounded-full">
               <Heart className="w-5 h-5" />
-              <span className="text-sm font-medium">Welcome</span>
+              <span className="text-sm font-medium">
+                <EditableContent
+                  page="welcome"
+                  section="hero"
+                  itemKey="badge"
+                  initialContent="Welcome"
+                  tag="span"
+                />
+              </span>
             </div>
             <h1 className="text-4xl md:text-6xl font-extrabold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-white via-blue-100 to-white">
               <EditableContent
@@ -114,7 +122,13 @@ const Welcome = () => {
                   <highlight.icon className="w-7 h-7 text-white" />
                 </div>
                 <p className="text-sm font-semibold text-gray-700">
-                  {highlight.text}
+                  <EditableContent
+                    page="welcome"
+                    section="highlights"
+                    itemKey={`highlight_${index}`}
+                    initialContent={highlight.text}
+                    tag="span"
+                  />
                 </p>
               </div>
             </AnimatedSection>

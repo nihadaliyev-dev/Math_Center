@@ -1,11 +1,18 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import AnimatedSection from "@/components/ui/AnimatedSection";
 import { Users, Sparkles, ArrowRight } from "lucide-react";
+import { useEditable } from "@/context/EditableContext";
+import { EditableContent } from "@/components/Editable/EditableContent";
 
 const Seminars: React.FC = () => {
   const { t } = useTranslation();
+  const { refreshContent } = useEditable();
+
+  useEffect(() => {
+    refreshContent("seminars");
+  }, [refreshContent]);
 
   const seminars = [
     {
@@ -13,36 +20,42 @@ const Seminars: React.FC = () => {
       titleKey: "seminar_page.categories.short_term",
       color: "from-pink-400 to-rose-500",
       bgColor: "bg-pink-50",
+      itemKey: "short_term",
     },
     {
       id: 2,
       titleKey: "seminar_page.categories.algebra",
       color: "from-blue-400 to-cyan-500",
       bgColor: "bg-blue-50",
+      itemKey: "algebra",
     },
     {
       id: 3,
       titleKey: "seminar_page.categories.mathematics",
       color: "from-yellow-400 to-orange-500",
       bgColor: "bg-yellow-50",
+      itemKey: "mathematics",
     },
     {
       id: 4,
       titleKey: "seminar_page.categories.number_theory",
       color: "from-green-400 to-teal-500",
       bgColor: "bg-green-50",
+      itemKey: "number_theory",
     },
     {
       id: 5,
       titleKey: "seminar_page.categories.discrete_structures",
       color: "from-indigo-400 to-purple-500",
       bgColor: "bg-indigo-50",
+      itemKey: "discrete_structures",
     },
     {
       id: 6,
       titleKey: "seminar_page.categories.geometry_topology",
       color: "from-teal-400 to-cyan-600",
       bgColor: "bg-teal-50",
+      itemKey: "geometry_topology",
     },
   ];
 
@@ -62,13 +75,33 @@ const Seminars: React.FC = () => {
           <AnimatedSection animation="fade-up" className="text-center">
             <div className="inline-flex items-center gap-2 mb-4 px-4 py-2 bg-white/10 backdrop-blur-sm rounded-full">
               <Users className="w-5 h-5" />
-              <span className="text-sm font-medium">{t("Seminarlar")}</span>
+              <span className="text-sm font-medium">
+                 <EditableContent
+                  page="seminars"
+                  section="hero"
+                  itemKey="badge"
+                  initialContent={t("Seminarlar")}
+                  tag="span"
+                />
+              </span>
             </div>
             <h1 className="text-4xl md:text-6xl font-extrabold mb-4">
-              {t("seminar_page.title")}
+               <EditableContent
+                page="seminars"
+                section="hero"
+                itemKey="title"
+                initialContent={t("seminar_page.title")}
+                tag="span"
+              />
             </h1>
             <p className="text-lg md:text-xl text-blue-100 max-w-3xl mx-auto">
-              {t("Müxtəlif mövzularda keçirilən elmi seminarlarımız")}
+               <EditableContent
+                page="seminars"
+                section="hero"
+                itemKey="subtitle"
+                initialContent={t("Müxtəlif mövzularda keçirilən elmi seminarlarımız")}
+                tag="span"
+              />
             </p>
           </AnimatedSection>
         </div>
@@ -120,7 +153,13 @@ const Seminars: React.FC = () => {
                       {/* Text Content */}
                       <div className="flex-1">
                         <h3 className="text-xl font-bold text-gray-900 group-hover:text-[#0D1F4F] transition-colors duration-300 mb-2">
-                          {t(seminar.titleKey)}
+                           <EditableContent
+                            page="seminars"
+                            section="list"
+                            itemKey={seminar.itemKey}
+                            initialContent={t(seminar.titleKey)}
+                            tag="span"
+                          />
                         </h3>
                         <div className="flex items-center gap-2 text-blue-600 group-hover:gap-3 transition-all duration-300">
                           <span className="text-sm font-medium">

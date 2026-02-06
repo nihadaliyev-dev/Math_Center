@@ -49,7 +49,7 @@ export const EditableProvider: React.FC<EditableProviderProps> = ({
   const [isEditing, setIsEditing] = useState(false);
   const [content, setContent] = useState<ContentData>({});
   const [unsavedChanges, setUnsavedChanges] = useState<
-    { page: string; section: string; key: string; value: any; type: string }[]
+    { page: string; section: string; key: string; content: any; type: string }[]
   >([]);
 
   // Function to fetch content for a page
@@ -100,7 +100,7 @@ export const EditableProvider: React.FC<EditableProviderProps> = ({
       const filtered = prev.filter(
         (c) => !(c.page === page && c.section === section && c.key === key)
       );
-      return [...filtered, { page, section, key, value, type }];
+      return [...filtered, { page, section, key, content: value, type }];
     });
   };
 

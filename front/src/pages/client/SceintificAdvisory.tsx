@@ -123,10 +123,22 @@ const ScientificAdvisory = () => {
                     </div>
                     <div className="flex-1 min-w-0">
                       <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-[#0D1F4F] transition-colors">
-                        {member.name}
+                         <EditableContent
+                          page="scientific_advisory"
+                          section="members"
+                          itemKey={`member_${index}_name`}
+                          initialContent={member.name}
+                          tag="span"
+                        />
                       </h3>
                       <p className="text-gray-600 leading-relaxed text-sm">
-                        {member.title}
+                         <EditableContent
+                          page="scientific_advisory"
+                          section="members"
+                          itemKey={`member_${index}_title`}
+                          initialContent={member.title}
+                          tag="span"
+                        />
                       </p>
                     </div>
                   </div>

@@ -107,7 +107,13 @@ const Home = () => {
           <div className="text-center text-white animate-scale-in">
             <div className="inline-block mb-6 px-6 py-2 bg-white/10 backdrop-blur-lg rounded-full border border-white/20">
               <span className="text-sm font-medium text-white/90">
-                Welcome to
+                <EditableContent
+                  page="home"
+                  section="hero"
+                  itemKey="badge"
+                  initialContent="Welcome to"
+                  tag="span"
+                />
               </span>
             </div>
 
@@ -189,7 +195,13 @@ const Home = () => {
             <CardHeader className="bg-gradient-to-br from-[#0D1F4F] to-[#2d4478] text-white p-6">
               <h3 className="text-xl font-bold flex items-center gap-2">
                 <MousePointer className="w-5 h-5" />
-                {t("haqqimizda")}
+                <EditableContent
+                  page="home"
+                  section="sidebar"
+                  itemKey="title"
+                  initialContent={t("haqqimizda")}
+                  tag="span"
+                />
               </h3>
             </CardHeader>
             <CardContent className="p-0">
@@ -218,7 +230,13 @@ const Home = () => {
               <div className="flex items-center justify-between">
                 <h2 className="text-2xl font-bold text-gray-800 flex items-center gap-2">
                   <TrendingUp className="w-6 h-6 text-[#0D1F4F]" />
-                  {t("xeberler")}
+                  <EditableContent
+                    page="home"
+                    section="news"
+                    itemKey="title"
+                    initialContent={t("xeberler")}
+                    tag="span"
+                  />
                 </h2>
                 <Link
                   to={"/xeberler"}
@@ -282,7 +300,13 @@ const Home = () => {
             <CardHeader className="bg-gradient-to-br from-[#0D1F4F] to-[#2d4478] text-white p-6">
               <h2 className="text-xl font-bold flex items-center gap-2">
                 <Bell className="w-5 h-5" />
-                {t("elanlar")}
+                <EditableContent
+                  page="home"
+                  section="announcements"
+                  itemKey="title"
+                  initialContent={t("elanlar")}
+                  tag="span"
+                />
               </h2>
             </CardHeader>
             <CardContent className="p-0">

@@ -1,7 +1,9 @@
 import { useTranslation } from "react-i18next";
 import AnimatedSection from "@/components/ui/AnimatedSection";
 import { Calendar, MapPin, Clock, Users, Award, Lightbulb } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useEditable } from "@/context/EditableContext";
+import { EditableContent } from "@/components/Editable/EditableContent";
 
 const eventKeys = [
   "event1",
@@ -32,7 +34,12 @@ const eventIcons = [Calendar, MapPin, Clock, Users, Award, Lightbulb];
 
 const AllEvents = () => {
   const { t } = useTranslation();
+  const { refreshContent } = useEditable();
   const [expandedEvent, setExpandedEvent] = useState<number | null>(null);
+
+  useEffect(() => {
+    refreshContent("all_events");
+  }, [refreshContent]);
 
   const getRandomIcon = (index: number) => {
     const Icon = eventIcons[index % eventIcons.length];
@@ -67,14 +74,33 @@ const AllEvents = () => {
           <AnimatedSection animation="fade-up" className="text-center">
             <div className="inline-flex items-center gap-2 mb-4 px-4 py-2 bg-white/10 backdrop-blur-sm rounded-full">
               <Calendar className="w-5 h-5" />
-              <span className="text-sm font-medium">Events & Activities</span>
+              <span className="text-sm font-medium">
+                <EditableContent
+                  page="all_events"
+                  section="hero"
+                  itemKey="badge"
+                  initialContent="Events & Activities"
+                  tag="span"
+                />
+              </span>
             </div>
             <h1 className="text-4xl md:text-6xl font-extrabold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-white via-blue-100 to-white">
-              {t("butun_tedbirler")}
+              <EditableContent
+                page="all_events"
+                section="hero"
+                itemKey="title"
+                initialContent={t("butun_tedbirler")}
+                tag="span"
+              />
             </h1>
             <p className="text-lg md:text-xl text-blue-100 max-w-2xl mx-auto">
-              Explore our comprehensive collection of research events, seminars,
-              and academic activities
+              <EditableContent
+                page="all_events"
+                section="hero"
+                itemKey="subtitle"
+                initialContent="Explore our comprehensive collection of research events, seminars, and academic activities"
+                tag="span"
+              />
             </p>
           </AnimatedSection>
         </div>
@@ -217,7 +243,13 @@ const AllEvents = () => {
                               </div>
 
                               <p className="text-gray-700 leading-relaxed text-sm md:text-base">
-                                {t(`events.${eventKey}`)}
+                                <EditableContent
+                                  page="all_events"
+                                  section="events"
+                                  itemKey={`event_${eventKey}`}
+                                  initialContent={t(`events.${eventKey}`)}
+                                  tag="span"
+                                />
                               </p>
 
                               {isExpanded && (
@@ -228,7 +260,13 @@ const AllEvents = () => {
                                   </div>
                                   <div className="flex items-center gap-2 text-sm text-gray-600">
                                     <MapPin className="w-4 h-4" />
-                                    <span>Mathematics Research Center</span>
+                                    <EditableContent
+                                      page="all_events"
+                                      section="events_meta"
+                                      itemKey={`location_${index}`}
+                                      initialContent="Mathematics Research Center"
+                                      tag="span"
+                                    />
                                   </div>
                                 </div>
                               )}
@@ -257,14 +295,31 @@ const AllEvents = () => {
           <div className="bg-gradient-to-br from-[#0D1F4F] via-[#1a2d5f] to-[#2d4478] rounded-3xl p-8 md:p-12 text-center text-white shadow-2xl">
             <Lightbulb className="w-16 h-16 mx-auto mb-6 text-yellow-300" />
             <h2 className="text-3xl md:text-4xl font-bold mb-4">
-              Interested in Participating?
+              <EditableContent
+                page="all_events"
+                section="cta"
+                itemKey="title"
+                initialContent="Interested in Participating?"
+                tag="span"
+              />
             </h2>
             <p className="text-lg text-blue-100 mb-8 max-w-2xl mx-auto">
-              Join us in our upcoming events and be part of groundbreaking
-              mathematical research
+              <EditableContent
+                page="all_events"
+                section="cta"
+                itemKey="description"
+                initialContent="Join us in our upcoming events and be part of groundbreaking mathematical research"
+                tag="span"
+              />
             </p>
             <button className="bg-white text-[#0D1F4F] px-8 py-4 rounded-xl font-semibold text-lg hover:bg-blue-50 transform hover:scale-105 transition-all duration-300 shadow-xl">
-              Contact Us
+              <EditableContent
+                page="all_events"
+                section="cta"
+                itemKey="button"
+                initialContent="Contact Us"
+                tag="span"
+              />
             </button>
           </div>
         </AnimatedSection>

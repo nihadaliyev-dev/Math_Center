@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from "react";
+import { useEditable } from "@/context/EditableContext";
+import { EditableContent } from "@/components/Editable/EditableContent";
 import { CalendarIcon, Search, Bell, RefreshCw, Filter, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
@@ -30,6 +32,11 @@ const AnnouncementsSection: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const { t, i18n } = useTranslation();
   const navigate = useNavigate();
+  const { refreshContent } = useEditable();
+
+  useEffect(() => {
+    refreshContent("advertisements");
+  }, [refreshContent]);
 
   useEffect(() => {
     const fetchAdvertisements = async () => {
@@ -141,14 +148,33 @@ const AnnouncementsSection: React.FC = () => {
           <AnimatedSection animation="fade-up" className="text-center">
             <div className="inline-flex items-center gap-2 mb-4 px-4 py-2 bg-white/10 backdrop-blur-sm rounded-full">
               <Bell className="w-5 h-5" />
-              <span className="text-sm font-medium">Announcements</span>
+              <span className="text-sm font-medium">
+                <EditableContent
+                  page="advertisements"
+                  section="hero"
+                  itemKey="badge"
+                  initialContent="Announcements"
+                  tag="span"
+                />
+              </span>
             </div>
             <h1 className="text-4xl md:text-6xl font-extrabold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-white via-blue-100 to-white">
-              {t("elanlar")}
+              <EditableContent
+                page="advertisements"
+                section="hero"
+                itemKey="title"
+                initialContent={t("elanlar")}
+                tag="span"
+              />
             </h1>
             <p className="text-lg md:text-xl text-blue-100 max-w-2xl mx-auto">
-              Stay updated with important announcements and notices from our
-              research center
+              <EditableContent
+                page="advertisements"
+                section="hero"
+                itemKey="subtitle"
+                initialContent="Stay updated with important announcements and notices from our research center"
+                tag="span"
+              />
             </p>
           </AnimatedSection>
         </div>

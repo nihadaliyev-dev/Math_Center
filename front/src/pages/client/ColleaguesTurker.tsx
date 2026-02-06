@@ -1,6 +1,8 @@
 import { t } from "i18next";
 import React from "react";
 import AnimatedSection from "@/components/ui/AnimatedSection";
+import { useEditable } from "@/context/EditableContext";
+import { EditableContent } from "@/components/Editable/EditableContent";
 import { User, BookOpen, Award, Briefcase, Globe } from "lucide-react";
 
 interface SectionProps {
@@ -10,6 +12,12 @@ interface SectionProps {
 }
 
 const TurkerBiyikogluProfile: React.FC = () => {
+  const { refreshContent } = useEditable();
+
+  React.useEffect(() => {
+    refreshContent("colleagues_turker");
+  }, [refreshContent]);
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 via-blue-50/30 to-indigo-50/40">
       {/* Hero Header */}
@@ -29,10 +37,22 @@ const TurkerBiyikogluProfile: React.FC = () => {
               <span className="text-sm font-medium">{t("Profil")}</span>
             </div>
             <h1 className="text-4xl md:text-5xl font-extrabold mb-4">
-              TÜRKER BIYIKOĞLU
+              <EditableContent
+                page="colleagues_turker"
+                section="hero"
+                itemKey="name"
+                initialContent="TÜRKER BIYIKOĞLU"
+                tag="span"
+              />
             </h1>
             <p className="text-lg md:text-xl text-blue-100">
-              {t("Qraf Nəzəriyyəsi Və Onun Tətbiqləri Qrupu - Baş Elmi Işçi")}
+               <EditableContent
+                page="colleagues_turker"
+                section="hero"
+                itemKey="role"
+                initialContent={t("Qraf Nəzəriyyəsi Və Onun Tətbiqləri Qrupu - Baş Elmi Işçi")}
+                tag="span"
+              />
             </p>
           </AnimatedSection>
         </div>
@@ -60,9 +80,13 @@ const TurkerBiyikogluProfile: React.FC = () => {
           <AnimatedSection animation="fade-up">
             <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-6">
               <p className="text-gray-700 leading-relaxed">
-                Tədqiqat maraqlarıma{" "}
-                <strong className="text-[#0D1F4F]">Qraf Nəzəriyyəsi</strong>,
-                Qraf Modelləşdirmə və Qraf Tətbiqləri daxildir.
+                 <EditableContent
+                  page="colleagues_turker"
+                  section="bio"
+                  itemKey="content"
+                  initialContent={`Tədqiqat maraqlarıma <strong class="text-[#0D1F4F]">Qraf Nəzəriyyəsi</strong>, Qraf Modelləşdirmə və Qraf Tətbiqləri daxildir.`}
+                  tag="span"
+                />
               </p>
             </div>
           </AnimatedSection>
@@ -85,6 +109,7 @@ const TurkerBiyikogluProfile: React.FC = () => {
                   "Son yeddi il Ankarada iki startap şirkətində baş elmi işçi kimi fəaliyyət göstərmişəm."
                 ),
               ]}
+              sectionKey="summary"
             />
           </AnimatedSection>
 
@@ -96,6 +121,7 @@ const TurkerBiyikogluProfile: React.FC = () => {
                 "Türk Matematik Vakfı (Turkish Mathematical Foundation) - Masatoshi Gündüz İkeda Research Award, 2015",
                 "Distinguished Young Scholar Award, Turkish Academy of Sciences, 2009 (TUBA-GEBIP/2009)",
               ]}
+              sectionKey="awards"
             />
           </AnimatedSection>
 
@@ -108,6 +134,7 @@ const TurkerBiyikogluProfile: React.FC = () => {
                 '"Castelnuovo-Mumford Regularity of Graphs and Topology of Decycling Complexes" supported by TUBITAK, 2012-2014. This is a joint project with Yusuf Civan (Suleyman Demirel University, Isparta, Turkey).',
                 '"Bionetalign: Global Alignment of Biochemical Networks Regularity for Functional Orthology" supported by TUBITAK 2012-2014. This is a joint project with Cesim Erten (Kadir Has University Istanbul, Turkey).',
               ]}
+              sectionKey="research_projects"
             />
           </AnimatedSection>
 
@@ -127,6 +154,7 @@ const TurkerBiyikogluProfile: React.FC = () => {
                 "Biyikoglu and J. Leydold, Graphs of given order and size and minimum algebraic connectivity, Linear Algebra and its Applications, 436: 2067-2077 (2012).",
                 "Biyikoglu, S. Simic, Z. Stanic, Some Notes on Spectra of Cographs, Ars Combinatoria, 100: 421-434 (2011).",
               ]}
+              sectionKey="publications"
             />
           </AnimatedSection>
 
@@ -138,6 +166,7 @@ const TurkerBiyikogluProfile: React.FC = () => {
                 "Baksi, O. Kaya and T. Biyikoglu, Enabling Cooperation, Resource Allocation and Receiver Selection Across Cells: Complementary Fractional Frequency Reuse. IEEE PIMRC 2013, London, UK, Sept. 2013.",
                 "Baksi, O. Kaya, T. Biyikoglu, Optimal and Near-optimal Partner Selection Algorithms in Cooperative OFDMA, IEEE WCNC 2012, Paris, France, April 2012.",
               ]}
+              sectionKey="conference_proceedings"
             />
           </AnimatedSection>
 
@@ -153,6 +182,7 @@ const TurkerBiyikogluProfile: React.FC = () => {
                 "T. Biyikoglu, and J Leydold, Semiregular Trees with Minimal Index, Preprint (2009). [pdf]",
                 "T. Biyikoglu, M. Hellmuth, J Leydold, Largest Laplacian Eigenvalue and Degree Sequences of Trees, Preprint (2007). [pdf]",
               ]}
+              sectionKey="preprints"
             />
           </AnimatedSection>
 
@@ -165,6 +195,7 @@ const TurkerBiyikogluProfile: React.FC = () => {
                 "Allmer, T. Biyikoglu and C. Has, De Novo Sequencing of Tandem Mass Spectra using a Novel Graph Modeling Approach, in preparation",
                 "M. Atay and T. Biyikoglu, Graph entropy, degree assortativity, and hierarchical structures in networks, in preparation.",
               ]}
+              sectionKey="ongoing_papers"
             />
           </AnimatedSection>
 
@@ -175,6 +206,7 @@ const TurkerBiyikogluProfile: React.FC = () => {
               items={[
                 "2015-2017-ci illərdə konsaltinq şirkətinin qurucularından biri olmuşam. Biz Türkiyə su elektrik stansiyası sektoru üçün xüsusi tədqiqata əsaslanan buxar axınını proqnozlaşdırma modelləri və məhsulları hazırlamışıq.",
               ]}
+              sectionKey="industry_research"
             />
           </AnimatedSection>
 
@@ -186,6 +218,7 @@ const TurkerBiyikogluProfile: React.FC = () => {
                 "Monthly Istanbul Discrete Mathematics Meetings, Istanbul Center for Mathematical Sciences, Bo˘gazi¸ci University, 2009-2012 (with T. Ekim).",
                 "Workshop on Graph Theory and its Applications I, II, III, Istanbul, 2010, 2011 and 2012 (with T. Ekim).",
               ]}
+              sectionKey="workshops_seminars"
             />
           </AnimatedSection>
 
@@ -196,6 +229,7 @@ const TurkerBiyikogluProfile: React.FC = () => {
               items={[
                 'Türkiyənin məşhur riyaziyyat jurnalının qonaq redaktoru journal "Matematik Dünyası", 2017–2020.',
               ]}
+              sectionKey="services"
             />
           </AnimatedSection>
         </div>
@@ -204,17 +238,38 @@ const TurkerBiyikogluProfile: React.FC = () => {
   );
 };
 
-const Section: React.FC<SectionProps> = ({ title, items, icon: Icon }) => (
+interface SectionProps {
+  title: string;
+  items: string[];
+  icon?: React.ComponentType<{ className?: string }>;
+  sectionKey: string;
+}
+
+const Section: React.FC<SectionProps> = ({ title, items, icon: Icon, sectionKey }) => (
   <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-6">
     <h2 className="text-lg font-bold text-[#0D1F4F] mb-4 flex items-center gap-3">
       {Icon && <Icon className="w-5 h-5" />}
-      {title}
+      <EditableContent
+        page="colleagues_turker"
+        section={sectionKey}
+        itemKey="title"
+        initialContent={title}
+        tag="span"
+      />
     </h2>
     <ul className="space-y-2">
       {items.map((item, idx) => (
         <li key={idx} className="flex items-start gap-3 text-gray-700 text-sm">
           <span className="text-blue-500 mt-1 flex-shrink-0">•</span>
-          <span>{item}</span>
+          <span>
+             <EditableContent
+                page="colleagues_turker"
+                section={sectionKey}
+                itemKey={`item_${idx}`}
+                initialContent={item}
+                tag="span"
+              />
+          </span>
         </li>
       ))}
     </ul>

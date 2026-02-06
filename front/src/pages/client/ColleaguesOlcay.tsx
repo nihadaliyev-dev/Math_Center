@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import AnimatedSection from "@/components/ui/AnimatedSection";
+import { useEditable } from "@/context/EditableContext";
+import { EditableContent } from "@/components/Editable/EditableContent";
 import {
   User,
   BookOpen,
@@ -19,6 +21,11 @@ interface SectionProps {
 
 const OlcayCoskunProfile: React.FC = () => {
   const { t } = useTranslation();
+  const { refreshContent } = useEditable();
+
+  useEffect(() => {
+    refreshContent("colleagues_olcay");
+  }, [refreshContent]);
 
   const adminItems = t("profile.sections.admin.items", {
     returnObjects: true,
@@ -64,10 +71,22 @@ const OlcayCoskunProfile: React.FC = () => {
               <span className="text-sm font-medium">{t("Profil")}</span>
             </div>
             <h1 className="text-4xl md:text-5xl font-extrabold mb-4">
-              {t("profile.name")}
+               <EditableContent
+                  page="colleagues_olcay"
+                  section="hero"
+                  itemKey="name"
+                  initialContent={t("profile.name")}
+                  tag="span"
+                />
             </h1>
             <p className="text-lg md:text-xl text-blue-100">
-              {t("profile.role")}
+               <EditableContent
+                  page="colleagues_olcay"
+                  section="hero"
+                  itemKey="role"
+                  initialContent={t("profile.role")}
+                  tag="span"
+                />
             </p>
           </AnimatedSection>
         </div>
@@ -95,11 +114,13 @@ const OlcayCoskunProfile: React.FC = () => {
           <AnimatedSection animation="fade-up">
             <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-6">
               <p className="text-gray-700 leading-relaxed">
-                {t("profile.bio.prefix")}
-                <strong className="text-[#0D1F4F]">
-                  {t("profile.bio.highlight")}
-                </strong>
-                {t("profile.bio.suffix")}
+                 <EditableContent
+                  page="colleagues_olcay"
+                  section="bio"
+                  itemKey="full_text"
+                  initialContent={`${t("profile.bio.prefix")} ${t("profile.bio.highlight")} ${t("profile.bio.suffix")}`}
+                  tag="span"
+                />
               </p>
             </div>
           </AnimatedSection>
@@ -109,6 +130,7 @@ const OlcayCoskunProfile: React.FC = () => {
               icon={Briefcase}
               title={t("profile.sections.admin.title")}
               items={adminItems}
+              sectionKey="admin"
             />
           </AnimatedSection>
 
@@ -117,6 +139,7 @@ const OlcayCoskunProfile: React.FC = () => {
               icon={Award}
               title={t("profile.sections.awards.title")}
               items={awardsItems}
+              sectionKey="awards"
             />
           </AnimatedSection>
 
@@ -125,6 +148,7 @@ const OlcayCoskunProfile: React.FC = () => {
               icon={BookOpen}
               title={t("profile.sections.projects.title")}
               items={projectsItems}
+              sectionKey="projects"
             />
           </AnimatedSection>
 
@@ -133,6 +157,7 @@ const OlcayCoskunProfile: React.FC = () => {
               icon={BookOpen}
               title={t("profile.sections.publications.title")}
               items={publicationsItems}
+              sectionKey="publications"
             />
           </AnimatedSection>
 
@@ -141,6 +166,7 @@ const OlcayCoskunProfile: React.FC = () => {
               icon={GraduationCap}
               title={t("profile.sections.studentsCurrent.title")}
               items={studentsCurrentItems}
+              sectionKey="studentsCurrent"
             />
           </AnimatedSection>
 
@@ -149,6 +175,7 @@ const OlcayCoskunProfile: React.FC = () => {
               icon={GraduationCap}
               title={t("profile.sections.studentsGrads.title")}
               items={studentsGradsItems}
+              sectionKey="studentsGrads"
             />
           </AnimatedSection>
 
@@ -157,6 +184,7 @@ const OlcayCoskunProfile: React.FC = () => {
               icon={User}
               title={t("profile.sections.postdocs.title")}
               items={postdocsItems}
+              sectionKey="postdocs"
             />
           </AnimatedSection>
 
@@ -165,6 +193,7 @@ const OlcayCoskunProfile: React.FC = () => {
               icon={BookOpen}
               title={t("profile.sections.studentArticles.title")}
               items={studentArticlesItems}
+              sectionKey="studentArticles"
             />
           </AnimatedSection>
 
@@ -188,7 +217,13 @@ const OlcayCoskunProfile: React.FC = () => {
                       rel="noopener noreferrer"
                       className="text-blue-600 hover:underline text-sm break-all"
                     >
-                      https://www.scopus.com/authid/detail.uri?authorId=17345043600
+                      <EditableContent
+                        page="colleagues_olcay"
+                        section="links"
+                        itemKey="scopus"
+                        initialContent="https://www.scopus.com/authid/detail.uri?authorId=17345043600"
+                        tag="span"
+                      />
                     </a>
                   </div>
                 </div>
@@ -204,7 +239,13 @@ const OlcayCoskunProfile: React.FC = () => {
                       rel="noopener noreferrer"
                       className="text-blue-600 hover:underline text-sm break-all"
                     >
-                      https://orcid.org/0000-0001-7649-560X
+                      <EditableContent
+                        page="colleagues_olcay"
+                        section="links"
+                        itemKey="orcid"
+                        initialContent="https://orcid.org/0000-0001-7649-560X"
+                        tag="span"
+                      />
                     </a>
                   </div>
                 </div>
@@ -217,17 +258,38 @@ const OlcayCoskunProfile: React.FC = () => {
   );
 };
 
-const Section: React.FC<SectionProps> = ({ title, items, icon: Icon }) => (
+interface SectionProps {
+  title: string;
+  items: string[];
+  icon?: React.ComponentType<{ className?: string }>;
+  sectionKey: string;
+}
+
+const Section: React.FC<SectionProps> = ({ title, items, icon: Icon, sectionKey }) => (
   <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-6">
     <h2 className="text-lg font-bold text-[#0D1F4F] mb-4 flex items-center gap-3">
       {Icon && <Icon className="w-5 h-5" />}
-      {title}
+      <EditableContent
+        page="colleagues_olcay"
+        section={sectionKey}
+        itemKey="title"
+        initialContent={title}
+        tag="span"
+      />
     </h2>
     <ul className="space-y-2">
       {items.map((item, idx) => (
         <li key={idx} className="flex items-start gap-3 text-gray-700 text-sm">
           <span className="text-blue-500 mt-1 flex-shrink-0">•</span>
-          <span>{item}</span>
+          <span>
+             <EditableContent
+                page="colleagues_olcay"
+                section={sectionKey}
+                itemKey={`item_${idx}`}
+                initialContent={item}
+                tag="span"
+              />
+          </span>
         </li>
       ))}
     </ul>
