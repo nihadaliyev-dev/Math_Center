@@ -23,8 +23,8 @@ import Conferences from "../pages/client/Conferences";
 import SeminarDetail from "../pages/client/SeminarDetail";
 import SummerSchool from "../pages/client/SummerSchool";
 import ResearchResults from "../pages/client/ResearchResults";
-import AppealToRector from "../pages/client/AppealToRector";
 import Connection from "../pages/client/Connection";
+import ResearcherDetail from "../pages/client/ResearcherDetail";
 import AdminLogin from "../pages/admin/AdminLogin";
 import Dashboard from "../pages/admin/Dashboard";
 import NewsManagement from "../pages/admin/NewsManagement";
@@ -106,6 +106,10 @@ const ROUTES: RouteObject[] = [
             element: <ColleaguesErtan />,
           },
           {
+            path: "emekdaslar/:id",
+            element: <ResearcherDetail />,
+          },
+          {
             path: "ziyaretciler",
             element: <Visitors />,
           },
@@ -148,10 +152,7 @@ const ROUTES: RouteObject[] = [
           },
         ],
       },
-      {
-        path: "rektora-muraciet",
-        element: <AppealToRector />,
-      },
+      // Appeal to rector removed
       {
         path: "elaqe",
         element: <Connection />,

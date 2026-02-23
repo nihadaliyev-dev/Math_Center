@@ -24,6 +24,7 @@ interface EventItem {
   coverImage?: string;
   tags?: string[];
   status?: "Draft" | "Published" | "Cancelled";
+  eventType?: "Event" | "Seminar" | "Conference";
   createdAt?: number;
   updatedAt?: string;
 }
@@ -208,6 +209,7 @@ const EventsManagement: React.FC = () => {
               speakers: [],
               tags: [],
               status: "Draft",
+              eventType: "Event",
             })
           }
           className="flex items-center gap-2 px-4 py-2 rounded-full bg-black text-white"
@@ -340,6 +342,20 @@ const EventsManagement: React.FC = () => {
                   <option>Draft</option>
                   <option>Published</option>
                   <option>Cancelled</option>
+                </select>
+              </div>
+              <div>
+                <label className="block text-xs mb-1">Event Type</label>
+                <select
+                  className="w-full border rounded-lg px-3 py-2"
+                  value={editing.eventType || "Event"}
+                  onChange={(e) =>
+                    setEditing({ ...editing, eventType: e.target.value as any })
+                  }
+                >
+                  <option>Event</option>
+                  <option>Seminar</option>
+                  <option>Conference</option>
                 </select>
               </div>
               <div className="md:col-span-2">

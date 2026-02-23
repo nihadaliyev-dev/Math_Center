@@ -51,6 +51,11 @@ const eventSchema = new Schema(
       enum: ["Draft", "Published", "Cancelled"],
       default: "Draft",
     },
+    eventType: {
+      type: String,
+      enum: ["Event", "Seminar", "Conference"],
+      default: "Event",
+    },
   },
   {
     timestamps: true,

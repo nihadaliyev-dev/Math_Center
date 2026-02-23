@@ -1,5 +1,4 @@
 import {
-  Send,
   Mail,
   Phone,
   MapPin,
@@ -237,15 +236,7 @@ export default function Footer() {
               </li>
             </ul>
 
-            {/* Contact Button */}
-            <div className="mt-6">
-              <Link to="/rektora-muraciet">
-                <Button className="w-full bg-white/10 backdrop-blur-sm hover:bg-white/20 border border-white/20 text-white font-semibold rounded-xl transition-all duration-300 transform hover:scale-105 hover:shadow-lg">
-                  <Send className="w-4 h-4 mr-2" />
-                  {t("Rektora müraciət")}
-                </Button>
-              </Link>
-            </div>
+            {/* Rector appeal removed */}
           </div>
         </div>
 

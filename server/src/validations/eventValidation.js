@@ -14,6 +14,9 @@ const eventValidationSchema = Joi.object({
   status: Joi.string()
     .valid("Draft", "Published", "Cancelled")
     .default("Draft"),
+  eventType: Joi.string()
+    .valid("Event", "Seminar", "Conference")
+    .default("Event"),
 });
 
 const eventUpdateValidationSchema = Joi.object({
@@ -31,6 +34,7 @@ const eventUpdateValidationSchema = Joi.object({
   coverImage: Joi.string().uri().trim().allow("", null),
   tags: Joi.array().items(Joi.string().trim()),
   status: Joi.string().valid("Draft", "Published", "Cancelled"),
+  eventType: Joi.string().valid("Event", "Seminar", "Conference"),
 }).min(1);
 
 module.exports = {
