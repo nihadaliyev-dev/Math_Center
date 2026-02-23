@@ -33,6 +33,9 @@ const EventsManagement: React.FC = () => {
   const [items, setItems] = useState<EventItem[]>([]);
   const [editing, setEditing] = useState<EventItem | null>(null);
   const [query, setQuery] = useState("");
+  const [typeFilter, setTypeFilter] = useState<
+    "All" | "Event" | "Seminar" | "Conference"
+  >("All");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -65,11 +68,14 @@ const EventsManagement: React.FC = () => {
     [items]
   );
 
-  const filteredUpcoming = upcoming.filter((e) =>
-    e.title?.toLowerCase().includes(query.toLowerCase())
+  const byType = (e: EventItem) =>
+    typeFilter === "All" ? true : (e.eventType || "Event") === typeFilter;
+
+  const filteredUpcoming = upcoming.filter(
+    (e) => e.title?.toLowerCase().includes(query.toLowerCase()) && byType(e)
   );
-  const filteredPast = past.filter((e) =>
-    e.title?.toLowerCase().includes(query.toLowerCase())
+  const filteredPast = past.filter(
+    (e) => e.title?.toLowerCase().includes(query.toLowerCase()) && byType(e)
   );
 
   const onSave = async (e: React.FormEvent) => {
@@ -218,7 +224,7 @@ const EventsManagement: React.FC = () => {
         </button>
       </div>
 
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-2 flex-wrap">
         <div className="flex items-center gap-2 bg-gray-50 rounded-full px-3 py-2 w-full md:w-80">
           <Search className="w-4 h-4 text-gray-500" />
           <input
@@ -227,6 +233,19 @@ const EventsManagement: React.FC = () => {
             placeholder="Search events"
             className="bg-transparent outline-none text-sm w-full"
           />
+        </div>
+        <div className="flex items-center gap-2">
+          {(["All", "Event", "Seminar", "Conference"] as const).map((type) => (
+            <button
+              key={type}
+              onClick={() => setTypeFilter(type)}
+              className={`px-3 py-1.5 text-sm rounded-full border ${
+                typeFilter === type ? "bg-black text-white" : "bg-white"
+              }`}
+            >
+              {type}
+            </button>
+          ))}
         </div>
       </div>
 
